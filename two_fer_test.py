@@ -18,5 +18,15 @@ class TwoFerTest(unittest.TestCase):
         feedback = analyzer.analyze(malformed_input)
         self.assertTrue(analyzer.malformed_code in feedback[0])
 
+    def test_missing_method(self):
+        wrong_method_name = '''def one_fer(name="you"): return "One for %s, one for me." % name'''
+        feedback = analyzer.analyze(wrong_method_name)
+        self.assertTrue(analyzer.no_method in feedback[0])
+
+    def test_has_method(self):
+        correct_method_name = '''def two_fer(name="you"): return "One for %s, one for me." % name'''
+        feedback = analyzer.analyze(correct_method_name)
+        self.assertFalse(analyzer.no_method in feedback[0])
+
 if __name__ == '__main__':
     unittest.main()
