@@ -67,11 +67,13 @@ class TwoFerTest(unittest.TestCase):
         no_return = '''def two_fer(name="you"): print ("One for %s, one for me." % name)'''
         feedback = analyzer.analyze(no_return)
         self.assertTrue(analyzer.no_return in feedback[0])
+        self.assertFalse(feedback[1])
 
     def test_has_return(self):
         has_return = '''def two_fer(name="you"): return "One for %s, one for me." % name'''
         feedback = analyzer.analyze(has_return)
         self.assertFalse(analyzer.no_return in feedback[0])
+        self.assertTrue(feedback[1])
 
     def test_pylint(self):
         has_pylint = '''def two_fer(name="you"): return "One for %s, one for me." % name'''
