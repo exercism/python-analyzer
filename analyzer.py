@@ -1,9 +1,6 @@
 import ast
 
 #Feedback for common mistakes
-var_convention = "It is Python convention to name variables using underscores and all lowercase letters " \
-                 "instead of camel case. This will make your code easier to read and understand for our Python " \
-                 "mentors."
 no_method = "No method called two_fer."
 malformed_code = "The code is malformed and cannot be parsed for analysis."
 simple_concat = "String concatenation with the + operator is a valid approach, but f-strings and str.format offer more " \
@@ -40,16 +37,6 @@ def analyze(user_solution):
     uses_def_arg = False
 
     for node in ast.walk(tree):
-        #Find all variable names in the user's code to check for naming conventions
-        if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Store):
-            for char in node.id:
-                if char.isupper() and var_convention not in comments: comments += [var_convention]
-
-        #Find all attribute names in the user's code to check for naming convetions again
-        if isinstance(node, ast.Attribute):
-            for char in node.attr:
-                if char.isupper() and var_convention not in comments: comments += [var_convention]
-
         #Search for method called two_fer
         if isinstance(node, ast.FunctionDef):
             if node.name == 'two_fer': has_method = True
