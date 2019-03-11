@@ -12,6 +12,7 @@ conditionals = "Conditionals are unnecessarily used in this solution. An ideal s
                "argument and either f-strings or str.format."
 no_return = "'return' is not used to return the result string. This solution should fail pytest. Try run 'pytest' inside" \
             "the two-fer directory and observe the pass/fail results."
+wrong_def_arg = "A value other than 'you' is used as a default argument."
 
 def analyze(user_solution):
     """
@@ -52,7 +53,13 @@ def analyze(user_solution):
 
         #Search for use of default arguments
         elif isinstance(node, ast.arguments):
-            if node.defaults: uses_def_arg = True
+            if node.defaults:
+                uses_def_arg = True
+                #Search for use of incorrect default argument
+                try:
+                    if node.defaults[0].s != 'you' and wrong_def_arg not in comments: comments += [wrong_def_arg]
+                except:
+                    if wrong_def_arg not in comments: comments += [wrong_def_arg]
 
         #Search for use of unnecessary conditionals
         elif isinstance(node, ast.If) and conditionals not in comments: comments += [conditionals]

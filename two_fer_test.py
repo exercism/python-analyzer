@@ -80,5 +80,15 @@ class TwoFerTest(unittest.TestCase):
         feedback = analyzer.analyze(has_pylint)
         self.assertFalse(not feedback[2])
 
+    def test_wrong_def_arg(self):
+        wrong_def_arg = '''def two_fer(name="them"): return "One for %s, one for me." % name'''
+        feedback = analyzer.analyze(wrong_def_arg)
+        self.assertTrue(analyzer.wrong_def_arg in feedback[0])
+
+    def test_correct_def_arg(self):
+        correct_def_arg = '''def two_fer(name="you"): return "One for %s, one for me." % name'''
+        feedback = analyzer.analyze(correct_def_arg)
+        self.assertFalse(analyzer.wrong_def_arg in feedback[0])
+
 if __name__ == '__main__':
     unittest.main()

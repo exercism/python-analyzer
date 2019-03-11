@@ -1,1 +1,1 @@
-def two_fer(name="you"): return "One for %s, one for me." % name
+def two_fer(name="them"): return "One for %s, one for me." % name
