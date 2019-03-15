@@ -1,2 +1,2 @@
-# Python-Two-Fer
-Static analysis tool for the Two Fer exercise for Exercism's Python track.
+# Python's Two Fer Analyzer
+This is Exercism's automated analyzer for the Two Fer exercise for the Python track.
