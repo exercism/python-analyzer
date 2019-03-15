@@ -96,10 +96,7 @@ def analyze(file_path):
         approve = False
 
     # Use Pylint to generate comments for code, e.g. if code follows PEP8 Style Convention
-    file = open('pylint_temp.txt',  'w')
-    file.write(user_solution)
-    file.close()
-    (pylint_stdout, pylint_stderr) = lint.py_run('pylint_temp.txt', return_std=True)
+    (pylint_stdout, pylint_stderr) = lint.py_run(file_path, return_std=True)
     pylint_comments += [pylint_stdout.getvalue()]
 
     # Set solution status
