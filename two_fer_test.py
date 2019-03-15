@@ -39,7 +39,7 @@ class TwoFerTest(unittest.TestCase):
         self.assertFalse(analyzer.simple_concat in feedback[0])
 
     def test_approves_correct_solution(self):
-        correct_style = '''def two_fer(name="you"): return "One for %s, one for me." % name'''
+        correct_style = '''def two_fer(name='you'): return 'One for {}, one for me.'.format(name)'''
         feedback = analyzer.analyze(correct_style)
         self.assertTrue(feedback[1])
         self.assertFalse(feedback[0])
@@ -75,10 +75,10 @@ class TwoFerTest(unittest.TestCase):
         self.assertFalse(analyzer.no_return in feedback[0])
         self.assertTrue(feedback[1])
 
-    def test_pylint(self):
-        has_pylint = '''def two_fer(name="you"): return "One for %s, one for me." % name'''
-        feedback = analyzer.analyze(has_pylint)
-        self.assertFalse(not feedback[2])
+    # def test_pylint(self):
+    #     has_pylint = '''def two_fer(name="you"): return "One for %s, one for me." % name'''
+    #     feedback = analyzer.analyze(has_pylint)
+    #     self.assertFalse(not feedback[2])
 
     def test_wrong_def_arg(self):
         wrong_def_arg = '''def two_fer(name="them"): return "One for %s, one for me." % name'''
@@ -89,6 +89,16 @@ class TwoFerTest(unittest.TestCase):
         correct_def_arg = '''def two_fer(name="you"): return "One for %s, one for me." % name'''
         feedback = analyzer.analyze(correct_def_arg)
         self.assertFalse(analyzer.wrong_def_arg in feedback[0])
+
+    def test_uses_percent(self):
+        uses_percent = '''def two_fer(name="you"): return "One for %s, one for me." % name'''
+        feedback = analyzer.analyze(uses_percent)
+        self.assertTrue(analyzer.percent_formatting in feedback [0])
+
+    def test_no_percent(self):
+        no_percent = '''def two_fer(name='you'): return 'One for {}, one for me.'.format(name)'''
+        feedback = analyzer.analyze(no_percent)
+        self.assertFalse(analyzer.percent_formatting in feedback[0])
 
 if __name__ == '__main__':
     unittest.main()
