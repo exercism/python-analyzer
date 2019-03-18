@@ -1,6 +1,5 @@
 import ast
 from pylint import epylint as lint
-from enum import Enum
 import json
 
 # Feedback for common mistakes
