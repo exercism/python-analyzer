@@ -113,8 +113,10 @@ def analyze(file_path):
                 pass
 
         # Search for use of f-strings
-        elif isinstance(node, ast.FormattedValue): uses_f_string = True
-
+        try:
+            if isinstance(node, ast.FormattedValue): uses_f_string = True
+        except:
+            pass # Fail if python version is too low
     if not has_method:
         comments += [no_method]
         approve = False
