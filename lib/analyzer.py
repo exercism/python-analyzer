@@ -65,7 +65,7 @@ def analyze(file_path):
     # Whether to approve the user's solution based on analysis. Note that this only denotes if it's POSSIBLE for the
     # user's solution to be approved; just because the user didn't submit something that automatically makes it get
     # disapproved, like an empty file or missing method header, doesn't mean it's actually correct. Final assessment
-    # of the user's solution must be done by a mentor.
+    # of the user's solution must be done by a mentor (unless the solution is one of the optimal solutions we check for).
     approve = True
     # Does the solution have a method called two_fer?
     has_method = False
