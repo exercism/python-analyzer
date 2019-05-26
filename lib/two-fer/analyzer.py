@@ -3,20 +3,15 @@ from pylint import epylint as lint
 import json
 
 # Feedback for common mistakes
-no_module = "No module called two_fer.py found in file path."
-no_method = "No method called two_fer."
-malformed_code = "The code is malformed and cannot be parsed for analysis."
-simple_concat = "String concatenation with the + operator is a valid approach, but f-strings and str.format offer more " \
-                "functionality and elegant solutions."
-no_def_arg = "No default arguments are used in this solution. An ideal solution should make use of a default argument " \
-             "and either f-strings or str.format."
-conditionals = "Conditionals are unnecessarily used in this solution. An ideal solution should make use of a default " \
-               "argument and either f-strings or str.format."
-no_return = "'return' is not used to return the result string. This solution should fail pytest. Try run 'pytest' inside" \
-            "the two-fer directory and observe the pass/fail results."
-wrong_def_arg = "A value other than 'you' is used as a default argument."
-percent_formatting = "%-formatting is a valid approach, but f-strings and str.format offer more functionality and " \
-                     "elegant solutions."
+no_module = "python.general.no_module"
+no_method = "python.two-fer.no_method"
+malformed_code = "python.general.malformed_code"
+simple_concat = "python.two-fer.simple_concat"
+no_def_arg = "python.two-fer.no_def_arg"
+conditionals = "python.two-fer.conditionals"
+no_return = "python.two-fer.no_return"
+wrong_def_arg = "python.two-fer.wrong_def_arg"
+percent_formatting = "python.two-fer.percent_formatting"
 
 def analyze(file_path):
     """
