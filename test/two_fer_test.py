@@ -1,7 +1,12 @@
 import ast
 import unittest
-import analyzer
 import os
+# Import two-fer analyzer
+import sys
+sys.path.append('../lib/two-fer')
+import analyzer
+
+#NOTE: Comment out JSON writing and pylint generating code in analyzer before running tests
 
 #This is only here because the indentation within the class and function definitions makes ast.parse fail
 #for multi-line function definitions in string form

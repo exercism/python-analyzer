@@ -36,7 +36,8 @@ def analyze(file_path):
         output['comment'] = [no_module]
         output['pylint_comment'] = []
         json_output = json.dumps(output)
-        file = open('analysis.json', 'w')
+        analysis_out = os.path.dirname(file_path) + '/analysis.json'
+        file = open(analysis_out, 'w')
         file.write(json_output)
         file.close()
         return ([no_module], False, [], 'disapprove_with_comment')
@@ -50,10 +51,10 @@ def analyze(file_path):
         output['status'] = 'disapprove_with_comment'
         output['comment'] = [malformed_code]
         output['pylint_comment'] = []
-        # [ccare] probably not pythonic but the following hack writes analysis.json into the correct place
+        json_output = json.dumps(output)
+        # # [ccare] probably not pythonic but the following hack writes analysis.json into the correct place
         analysis_out = os.path.dirname(file_path) + '/analysis.json'
-        json_output = json.dumps(analysis_out)
-        file = open('analysis.json', 'w')
+        file = open(analysis_out, 'w')
         file.write(json_output)
         file.close()
         return ([malformed_code], False, [], 'disapprove_with_comment')
@@ -143,7 +144,8 @@ def analyze(file_path):
     output['comment'] = comments
     output['pylint_comment'] = pylint_comments
     json_output = json.dumps(output)
-    file = open('analysis.json',  'w')
+    analysis_out = os.path.dirname(file_path) + '/analysis.json'
+    file = open(analysis_out,  'w')
     file.write(json_output)
     file.close()
 
