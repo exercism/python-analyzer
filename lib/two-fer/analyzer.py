@@ -1,6 +1,7 @@
 import ast
 from pylint import epylint as lint
 import json
+import os
 
 # Feedback for common mistakes
 no_module = "python.general.no_module"
@@ -49,7 +50,9 @@ def analyze(file_path):
         output['status'] = 'disapprove_with_comment'
         output['comment'] = [malformed_code]
         output['pylint_comment'] = []
-        json_output = json.dumps(output)
+        # [ccare] probably not pythonic but the following hack writes analysis.json into the correct place
+        analysis_out = os.path.dirname(file_path) + '/analysis.json'
+        json_output = json.dumps(analysis_out)
         file = open('analysis.json', 'w')
         file.write(json_output)
         file.close()
