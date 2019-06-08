@@ -52,7 +52,6 @@ def analyze(file_path):
         output['comment'] = [malformed_code]
         output['pylint_comment'] = []
         json_output = json.dumps(output)
-        # # [ccare] probably not pythonic but the following hack writes analysis.json into the correct place
         analysis_out = os.path.dirname(file_path) + '/analysis.json'
         file = open(analysis_out, 'w')
         file.write(json_output)

@@ -1,10 +1,10 @@
 import sys
 import os
 
-file_path = '{}{}.py'.format(sys.argv[2], sys.argv[1])
+file_path = os.path.join(sys.argv[2], ' {}.py'.format(sys.argv[1]))
 
 # Add path to import analyzer
-sys.path.append(os.path.realpath(__file__).replace('bin/analyze.py', 'lib'))
+sys.path.append('../lib/{}'.format(sys.argv[1]))
 
 import analyzer
 analyzer.analyze(file_path)
