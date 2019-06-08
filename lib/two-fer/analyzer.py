@@ -29,33 +29,31 @@ def analyze(file_path):
     try:
         with open(file_path, 'r') as f:
            user_solution = f.read()
-    except:
+    except Exception:
         # If the proper file cannot be found, disapprove this solution
         output = {}
         output['status'] = 'disapprove_with_comment'
         output['comment'] = [no_module]
         output['pylint_comment'] = []
-        json_output = json.dumps(output)
+        json_output = json.dumps(output, indent=4)
         analysis_out = os.path.dirname(file_path) + '/analysis.json'
-        file = open(analysis_out, 'w')
-        file.write(json_output)
-        file.close()
+        with open(analysis_out, 'w') as f:
+            f.write(json_output)
         return ([no_module], False, [], 'disapprove_with_comment')
 
     try:
         # Parse file to abstract syntax tree
         tree = ast.parse(user_solution)
-    except:
+    except Exception:
         # If ast.parse fails, the code is malformed and this solution is disapproved
         output = {}
         output['status'] = 'disapprove_with_comment'
         output['comment'] = [malformed_code]
         output['pylint_comment'] = []
-        json_output = json.dumps(output)
+        json_output = json.dumps(output, indent=4)
         analysis_out = os.path.dirname(file_path) + '/analysis.json'
-        file = open(analysis_out, 'w')
-        file.write(json_output)
-        file.close()
+        with open(analysis_out, 'w') as f:
+            f.write(json_output)
         return ([malformed_code], False, [], 'disapprove_with_comment')
 
     # List of comments to return at end, each comment is a string
@@ -92,7 +90,7 @@ def analyze(file_path):
                 # Search for use of incorrect default argument
                 try:
                     if node.defaults[0].s != 'you' and wrong_def_arg not in comments: comments += [wrong_def_arg]
-                except:
+                except Exception:
                     if wrong_def_arg not in comments: comments += [wrong_def_arg]
 
         # Search for use of unnecessary conditionals
@@ -108,13 +106,13 @@ def analyze(file_path):
         elif isinstance(node, ast.Call):
             try:
                 if node.func.attr == 'format': uses_format = True
-            except:
+            except Exception:
                 pass
 
         # Search for use of f-strings
         try:
             if isinstance(node, ast.FormattedValue): uses_f_string = True
-        except:
+        except Exception:
             pass # Fail if python version is too low
           
     if not has_method:
@@ -142,10 +140,9 @@ def analyze(file_path):
     output['status'] = status
     output['comment'] = comments
     output['pylint_comment'] = pylint_comments
-    json_output = json.dumps(output)
+    json_output = json.dumps(output, indent=4)
     analysis_out = os.path.dirname(file_path) + '/analysis.json'
-    file = open(analysis_out,  'w')
-    file.write(json_output)
-    file.close()
+    with open(analysis_out,  'w') as f:
+        f.write(json_output)
 
     return (comments, approve, pylint_comments, status)
