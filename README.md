@@ -7,5 +7,5 @@ It is run with `./bin/analyze.sh $EXERCISM $PATH_TO_FILES` and will write a JSON
 For example:
 
 ```bash
-./bin/analyze.sh two_fer ~/solution-238382y7sds7fsadfasj23j/
+./bin/analyze.sh two-fer ~/solution-238382y7sds7fsadfasj23j/
 ```
