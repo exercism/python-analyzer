@@ -12,7 +12,6 @@ ROOT = Path(__file__).resolve(strict=True)
 LIBRARY = ROOT.parent.parent.joinpath("lib").resolve(strict=True)
 ANALYZERS = {f.parent.name: f for f in LIBRARY.glob("*/analyzer.py")}
 
-
 class Exercise(NamedTuple):
     """
     An individual Exercise to anaylze.
