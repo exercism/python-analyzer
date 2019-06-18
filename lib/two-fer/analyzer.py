@@ -78,10 +78,12 @@ def analyze(file_path):
     for node in ast.walk(tree):
         # Search for method called two_fer
         if isinstance(node, ast.FunctionDef):
-            if node.name == 'two_fer': has_method = True
+            if node.name == 'two_fer': 
+                has_method = True
 
         # Search for use of string concatenation with + operator
-        elif isinstance(node, ast.Add) and simple_concat not in comments: comments += [simple_concat]
+        elif isinstance(node, ast.Add) and simple_concat not in comments: 
+            comments += [simple_concat]
 
         # Search for use of default arguments
         elif isinstance(node, ast.arguments):
@@ -89,29 +91,36 @@ def analyze(file_path):
                 uses_def_arg = True
                 # Search for use of incorrect default argument
                 try:
-                    if node.defaults[0].s != 'you' and wrong_def_arg not in comments: comments += [wrong_def_arg]
+                    if node.defaults[0].s != 'you' and wrong_def_arg not in comments: 
+                        comments += [wrong_def_arg]
                 except Exception:
-                    if wrong_def_arg not in comments: comments += [wrong_def_arg]
+                    if wrong_def_arg not in comments: 
+                        comments += [wrong_def_arg]
 
         # Search for use of unnecessary conditionals
-        elif isinstance(node, ast.If) and conditionals not in comments: comments += [conditionals]
+        elif isinstance(node, ast.If) and conditionals not in comments: 
+            comments += [conditionals]
 
         # Search for use of %-formatting
-        elif isinstance(node, ast.Mod) and percent_formatting not in comments: comments += [percent_formatting]
+        elif isinstance(node, ast.Mod) and percent_formatting not in comments: 
+            comments += [percent_formatting]
 
         # Search for return
-        elif isinstance(node, ast.Return): has_return = True
+        elif isinstance(node, ast.Return): 
+            has_return = True
 
         # Search for use of str.format
         elif isinstance(node, ast.Call):
             try:
-                if node.func.attr == 'format': uses_format = True
+                if node.func.attr == 'format': 
+                    uses_format = True
             except Exception:
                 pass
 
         # Search for use of f-strings
         try:
-            if isinstance(node, ast.FormattedValue): uses_f_string = True
+            if isinstance(node, ast.FormattedValue): 
+                uses_f_string = True
         except Exception:
             pass # Fail if python version is too low
           
@@ -131,9 +140,12 @@ def analyze(file_path):
     pylint_comments += [pylint_stdout.getvalue()]
 
     # Set solution status
-    if approve and (not comments) and (uses_format or uses_f_string): status = 'approve_as_optimal'
-    elif not approve: status = 'disapprove_with_comment'
-    else: status = 'refer_to_mentor'
+    if approve and (not comments) and (uses_format or uses_f_string): 
+        status = 'approve_as_optimal'
+    elif not approve: 
+        status = 'disapprove_with_comment'
+    else: 
+        status = 'refer_to_mentor'
 
     # Convert to json output format and print to analysis.json
     output = {}
