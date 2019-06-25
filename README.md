@@ -9,3 +9,9 @@ For example:
 ```bash
 ./bin/analyze.sh two-fer ~/solution-238382y7sds7fsadfasj23j/
 ```
+
+Unit tests can be run from this directory:
+
+```bash
+pylint -x
+```
