@@ -77,9 +77,9 @@ class TwoFerTest(BaseExerciseTest, unittest.TestCase):
         Test marks missing `two_fer` method.
         """
         analysis = self.get_analysis("def ref_owt(): pass")
-        self.assertIs(analysis.status, Status.DISAPPROVE_WITH_COMMENT)
+        self.assertIs(analysis.status, Status.DISAPPROVE)
         self.assertIn(self.comments.NO_METHOD, analysis.comment)
-        self.assertIs(analysis.approved, False)
+        self.assertIs(analysis.approvable, False)
 
     def test_has_method(self):
         """
@@ -108,8 +108,8 @@ class TwoFerTest(BaseExerciseTest, unittest.TestCase):
         Test optimal solution that uses str.format.
         """
         analysis = self.get_analysis(USES_STRING_FORMAT)
-        self.assertIs(analysis.status, Status.APPROVE_AS_OPTIMAL)
-        self.assertIs(analysis.approved, True)
+        self.assertIs(analysis.status, Status.APPROVE)
+        self.assertIs(analysis.approvable, True)
         self.assertFalse(analysis.comment)
 
     def test_approves_optimal_f_string(self):
@@ -117,8 +117,8 @@ class TwoFerTest(BaseExerciseTest, unittest.TestCase):
         Test optimal solution that uses f_strings.
         """
         analysis = self.get_analysis(USES_F_STRING)
-        self.assertIs(analysis.status, Status.APPROVE_AS_OPTIMAL)
-        self.assertIs(analysis.approved, True)
+        self.assertIs(analysis.status, Status.APPROVE)
+        self.assertIs(analysis.approvable, True)
         self.assertFalse(analysis.comment)
 
     def test_no_def_arg(self):
@@ -156,9 +156,9 @@ class TwoFerTest(BaseExerciseTest, unittest.TestCase):
         Test marks missing return statement.
         """
         analysis = self.get_analysis(NO_RETURN)
-        self.assertIs(analysis.status, Status.DISAPPROVE_WITH_COMMENT)
+        self.assertIs(analysis.status, Status.DISAPPROVE)
         self.assertIn(self.comments.NO_RETURN, analysis.comment)
-        self.assertIs(analysis.approved, False)
+        self.assertIs(analysis.approvable, False)
 
     def test_has_return(self):
         """

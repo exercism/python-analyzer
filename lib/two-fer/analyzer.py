@@ -37,25 +37,25 @@ def analyze(path: Path):
         user_solution = path.read_text()
     except OSError as err:
         # If the proper file cannot be found, disapprove this solution
-        return Analysis.disapprove_with_comment([Comments.NO_MODULE]).dump(output_file)
+        return Analysis.disapprove([Comments.NO_MODULE]).dump(output_file)
 
     try:
         # Parse file to abstract syntax tree
         tree = ast.parse(user_solution)
     except Exception:
         # If ast.parse fails, the code is malformed and this solution is disapproved
-        return Analysis.disapprove_with_comment([Comments.MALFORMED_CODE]).dump(
+        return Analysis.disapprove([Comments.MALFORMED_CODE]).dump(
             output_file
         )
 
     # List of comments to return at end, each comment is a string
     comments = []
 
-    # Whether to approve the user's solution based on analysis. Note that this only denotes if it's POSSIBLE for the
+    # Whether user's solution is considered approvable based on analysis. Note that this only denotes if it's POSSIBLE for the
     # user's solution to be approved; just because the user didn't submit something that automatically makes it get
     # disapproved, like an empty file or missing method header, doesn't mean it's actually correct. Final assessment
     # of the user's solution must be done by a mentor (unless the solution is one of the optimal solutions we check for).
-    approve = True
+    approvable = True
     # Does the solution have a method called two_fer?
     has_method = False
     # Does the solution correctly use a default argument?
@@ -120,30 +120,30 @@ def analyze(path: Path):
 
     if not has_method:
         comments.append(Comments.NO_METHOD)
-        approve = False
+        approvable = False
 
     if not uses_def_arg:
         comments.append(Comments.NO_DEF_ARG)
 
     if not has_return:
         comments.append(Comments.NO_RETURN)
-        approve = False
+        approvable = False
 
     # Use Pylint to generate comments for code, e.g. if code follows PEP8 Style Convention
     pylint_stdout, _ = lint.py_run(str(path), return_std=True)
     pylint_comments = [pylint_stdout.getvalue()]
 
     # Handle a known optimal solution
-    if approve and (not comments) and (uses_format or uses_f_string):
-        return Analysis.approve_as_optimal(comments, pylint_comments).dump(output_file)
+    if approvable and (not comments) and (uses_format or uses_f_string):
+        return Analysis.approve(comments, pylint_comments).dump(output_file)
 
     # Handle a known inadequate solution
-    if not approve:
-        return Analysis.disapprove_with_comment(comments, pylint_comments).dump(
+    if not approvable:
+        return Analysis.disapprove(comments, pylint_comments).dump(
             output_file
         )
 
     # In all other cases refer to the Mentor
-    return Analysis.refer_to_mentor(comments, pylint_comments, approve=approve).dump(
+    return Analysis.refer_to_mentor(comments, pylint_comments, approvable=approvable).dump(
         output_file
     )

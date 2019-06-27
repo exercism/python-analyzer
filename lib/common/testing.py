@@ -77,9 +77,9 @@ class BaseExerciseTest(ABC):
         Ensure the analyzer can handle a missing module.
         """
         analysis = self.get_analysis(None)
-        self.assertIs(analysis.status, Status.DISAPPROVE_WITH_COMMENT)
+        self.assertIs(analysis.status, Status.DISAPPROVE)
         self.assertIn(self.comments.NO_MODULE, analysis.comment)
-        self.assertIs(analysis.approved, False)
+        self.assertIs(analysis.approvable, False)
 
     def test_has_module(self):
         """
@@ -93,9 +93,9 @@ class BaseExerciseTest(ABC):
         Ensure the analyzer can handle malformed code.
         """
         analysis = self.get_analysis("fed test();")
-        self.assertIs(analysis.status, Status.DISAPPROVE_WITH_COMMENT)
+        self.assertIs(analysis.status, Status.DISAPPROVE)
         self.assertIn(self.comments.MALFORMED_CODE, analysis.comment)
-        self.assertIs(analysis.approved, False)
+        self.assertIs(analysis.approvable, False)
 
     def test_no_malformed_code(self):
         """

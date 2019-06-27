@@ -17,9 +17,8 @@ class Status(Enum):
     Status of the exercise under analysis.
     """
 
-    APPROVE_AS_OPTIMAL = auto()
-    APPROVE_WITH_COMMENT = auto()
-    DISAPPROVE_WITH_COMMENT = auto()
+    APPROVE = auto()
+    DISAPPROVE = auto()
     REFER_TO_MENTOR = auto()
 
     def __str__(self):
@@ -45,11 +44,11 @@ class Analysis(dict):
     Represents the current state of the analysis of an exercise.
     """
 
-    def __init__(self, status, comment, pylint_comment, approve=False):
+    def __init__(self, status, comment, pylint_comment, approvable=False):
         super(Analysis, self).__init__(
             status=status, comment=comment, pylint_comment=pylint_comment
         )
-        self._approved = approve
+        self._approvable = approvable
 
     @property
     def status(self) -> Status:
@@ -73,46 +72,38 @@ class Analysis(dict):
         return self["pylint_comment"]
 
     @property
-    def approved(self):
+    def approvable(self):
         """
-        Is this analysis _considered_ approve-able?
+        Is this analysis _considered_ approvable?
         Note that this does not imply an approved status, but that the exercise
         has hit sufficient points that a live Mentor would likely approve it.
         """
-        return self._approved
+        return self._approvable
 
     @classmethod
-    def approve_as_optimal(cls, comment=None, pylint_comment=None):
+    def approve(cls, comment=None, pylint_comment=None):
         """
-        Create an Anaylsis that is approved as optimal.
+        Create an Anaylsis that is approved.
+        If non-optimal, comment should be a list of Comments.
         """
         return cls(
-            Status.APPROVE_AS_OPTIMAL, comment or [], pylint_comment or [], approve=True
+            Status.APPROVE, comment or [], pylint_comment or [], approvable=True
         )
 
     @classmethod
-    def approve_with_comment(cls, comment, pylint_comment=None):
+    def disapprove(cls, comment, pylint_comment=None):
         """
-        Create an Analysis that is approved with comment.
+        Create an Analysis that is disapproved.
         """
-        return cls(
-            Status.APPROVE_WITH_COMMENT, comment, pylint_comment or [], approve=True
-        )
+        return cls(Status.DISAPPROVE, comment, pylint_comment or [])
 
     @classmethod
-    def disapprove_with_comment(cls, comment, pylint_comment=None):
-        """
-        Create an Analysis that is disapproved with comment.
-        """
-        return cls(Status.DISAPPROVE_WITH_COMMENT, comment, pylint_comment or [])
-
-    @classmethod
-    def refer_to_mentor(cls, comment, pylint_comment=None, approve=False):
+    def refer_to_mentor(cls, comment, pylint_comment=None, approvable=False):
         """
         Create an Analysis that should be referred to a mentor.
         """
         return cls(
-            Status.REFER_TO_MENTOR, comment, pylint_comment or [], approve=approve
+            Status.REFER_TO_MENTOR, comment, pylint_comment or [], approvable=approvable
         )
 
     def dump(self, path: Path):
