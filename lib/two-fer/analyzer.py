@@ -1,20 +1,26 @@
+"""
+Analyzer for the `two-fer` exercise.
+"""
 import ast
 from pylint import epylint as lint
-import json
-import os
+from pathlib import Path
 
-# Feedback for common mistakes
-no_module = "python.general.no_module"
-no_method = "python.two-fer.no_method"
-malformed_code = "python.general.malformed_code"
-simple_concat = "python.two-fer.simple_concat"
-no_def_arg = "python.two-fer.no_def_arg"
-conditionals = "python.two-fer.conditionals"
-no_return = "python.two-fer.no_return"
-wrong_def_arg = "python.two-fer.wrong_def_arg"
-percent_formatting = "python.two-fer.percent_formatting"
+from common import Analysis, BaseComments
 
-def analyze(file_path):
+
+class Comments(BaseComments):
+    NO_MODULE = ("general", "no_module")
+    NO_METHOD = ("two-fer", "no_method")
+    MALFORMED_CODE = ("general", "malformed_code")
+    SIMPLE_CONCAT = ("two-fer", "simple_concat")
+    NO_DEF_ARG = ("two-fer", "no_def_arg")
+    CONDITIONALS = ("two-fer", "conditionals")
+    NO_RETURN = ("two-fer", "no_return")
+    WRONG_DEF_ARG = ("two-fer", "wrong_def_arg")
+    PERCENT_FORMATTING = ("two-fer", "percent_formatting")
+
+
+def analyze(path: Path):
     """
     Analyze the user's Two Fer solution to give feedback and disapprove malformed solutions. Outputs a JSON that
     conforms to Exercism's Auto-Mentor project interface.
@@ -24,46 +30,32 @@ def analyze(file_path):
         and a 'status' string corresponding to the value of the status key in the generated JSON, as its fourth
         entry.
     """
+    output_file = path.parent.joinpath("analysis.json")
 
     # Input file
     try:
-        with open(file_path, 'r') as f:
-           user_solution = f.read()
-    except Exception:
+        user_solution = path.read_text()
+    except OSError as err:
         # If the proper file cannot be found, disapprove this solution
-        output = {}
-        output['status'] = 'disapprove_with_comment'
-        output['comment'] = [no_module]
-        output['pylint_comment'] = []
-        json_output = json.dumps(output, indent=4)
-        analysis_out = os.path.dirname(file_path) + '/analysis.json'
-        with open(analysis_out, 'w') as f:
-            f.write(json_output)
-        return ([no_module], False, [], 'disapprove_with_comment')
+        return Analysis.disapprove([Comments.NO_MODULE]).dump(output_file)
 
     try:
         # Parse file to abstract syntax tree
         tree = ast.parse(user_solution)
     except Exception:
         # If ast.parse fails, the code is malformed and this solution is disapproved
-        output = {}
-        output['status'] = 'disapprove_with_comment'
-        output['comment'] = [malformed_code]
-        output['pylint_comment'] = []
-        json_output = json.dumps(output, indent=4)
-        analysis_out = os.path.dirname(file_path) + '/analysis.json'
-        with open(analysis_out, 'w') as f:
-            f.write(json_output)
-        return ([malformed_code], False, [], 'disapprove_with_comment')
+        return Analysis.disapprove([Comments.MALFORMED_CODE]).dump(
+            output_file
+        )
 
     # List of comments to return at end, each comment is a string
     comments = []
-    pylint_comments =[]
-    # Whether to approve the user's solution based on analysis. Note that this only denotes if it's POSSIBLE for the
+
+    # Whether user's solution is considered approvable based on analysis. Note that this only denotes if it's POSSIBLE for the
     # user's solution to be approved; just because the user didn't submit something that automatically makes it get
     # disapproved, like an empty file or missing method header, doesn't mean it's actually correct. Final assessment
     # of the user's solution must be done by a mentor (unless the solution is one of the optimal solutions we check for).
-    approve = True
+    approvable = True
     # Does the solution have a method called two_fer?
     has_method = False
     # Does the solution correctly use a default argument?
@@ -76,14 +68,14 @@ def analyze(file_path):
     uses_f_string = False
 
     for node in ast.walk(tree):
+
         # Search for method called two_fer
         if isinstance(node, ast.FunctionDef):
-            if node.name == 'two_fer': 
-                has_method = True
+            has_method = node.name == "two_fer"
 
         # Search for use of string concatenation with + operator
-        elif isinstance(node, ast.Add) and simple_concat not in comments: 
-            comments += [simple_concat]
+        elif isinstance(node, ast.Add) and Comments.SIMPLE_CONCAT not in comments:
+            comments.append(Comments.SIMPLE_CONCAT)
 
         # Search for use of default arguments
         elif isinstance(node, ast.arguments):
@@ -91,70 +83,67 @@ def analyze(file_path):
                 uses_def_arg = True
                 # Search for use of incorrect default argument
                 try:
-                    if node.defaults[0].s != 'you' and wrong_def_arg not in comments: 
-                        comments += [wrong_def_arg]
+                    if (
+                        node.defaults[0].s != "you"
+                        and Comments.WRONG_DEF_ARG not in comments
+                    ):
+                        comments.append(Comments.WRONG_DEF_ARG)
                 except Exception:
-                    if wrong_def_arg not in comments: 
-                        comments += [wrong_def_arg]
+                    if Comments.WRONG_DEF_ARG not in comments:
+                        comments.append(Comments.WRONG_DEF_ARG)
 
         # Search for use of unnecessary conditionals
-        elif isinstance(node, ast.If) and conditionals not in comments: 
-            comments += [conditionals]
+        elif isinstance(node, ast.If) and Comments.CONDITIONALS not in comments:
+            comments.append(Comments.CONDITIONALS)
 
         # Search for use of %-formatting
-        elif isinstance(node, ast.Mod) and percent_formatting not in comments: 
-            comments += [percent_formatting]
+        elif isinstance(node, ast.Mod) and Comments.PERCENT_FORMATTING not in comments:
+            comments.append(Comments.PERCENT_FORMATTING)
 
         # Search for return
-        elif isinstance(node, ast.Return): 
+        elif isinstance(node, ast.Return):
             has_return = True
 
         # Search for use of str.format
         elif isinstance(node, ast.Call):
             try:
-                if node.func.attr == 'format': 
-                    uses_format = True
+                uses_format = node.func.attr == "format"
             except Exception:
                 pass
 
         # Search for use of f-strings
         try:
-            if isinstance(node, ast.FormattedValue): 
+            if isinstance(node, ast.FormattedValue):
                 uses_f_string = True
-        except Exception:
-            pass # Fail if python version is too low
-          
+        except AttributeError:
+            pass  # Fail if python version is too low
+
     if not has_method:
-        comments += [no_method]
-        approve = False
+        comments.append(Comments.NO_METHOD)
+        approvable = False
 
     if not uses_def_arg:
-        comments += [no_def_arg]
+        comments.append(Comments.NO_DEF_ARG)
 
     if not has_return:
-        comments += [no_return]
-        approve = False
+        comments.append(Comments.NO_RETURN)
+        approvable = False
 
     # Use Pylint to generate comments for code, e.g. if code follows PEP8 Style Convention
-    (pylint_stdout, pylint_stderr) = lint.py_run(file_path, return_std=True)
-    pylint_comments += [pylint_stdout.getvalue()]
+    pylint_stdout, _ = lint.py_run(str(path), return_std=True)
+    pylint_comments = [pylint_stdout.getvalue()]
 
-    # Set solution status
-    if approve and (not comments) and (uses_format or uses_f_string): 
-        status = 'approve_as_optimal'
-    elif not approve: 
-        status = 'disapprove_with_comment'
-    else: 
-        status = 'refer_to_mentor'
+    # Handle a known optimal solution
+    if approvable and (not comments) and (uses_format or uses_f_string):
+        return Analysis.approve(comments, pylint_comments).dump(output_file)
 
-    # Convert to json output format and print to analysis.json
-    output = {}
-    output['status'] = status
-    output['comment'] = comments
-    output['pylint_comment'] = pylint_comments
-    json_output = json.dumps(output, indent=4)
-    analysis_out = os.path.dirname(file_path) + '/analysis.json'
-    with open(analysis_out,  'w') as f:
-        f.write(json_output)
+    # Handle a known inadequate solution
+    if not approvable:
+        return Analysis.disapprove(comments, pylint_comments).dump(
+            output_file
+        )
 
-    return (comments, approve, pylint_comments, status)
+    # In all other cases refer to the Mentor
+    return Analysis.refer_to_mentor(comments, pylint_comments, approvable=approvable).dump(
+        output_file
+    )
