@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 """
 CLI for the auto-analyzer for the Python track on Exercism.io.
+./bin/run.sh two_fer ~/solution-238382y7sds7fsadfasj23j/ ~/solution-238382y7sds7fsadfasj23j/output/
 """
 import argparse
 import importlib.util
@@ -32,6 +33,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Perform automatic code analysis of a Python track exercise."
     )
+
     parser.add_argument(
         "exercise",
         metavar="EXERCISE",
@@ -39,15 +41,23 @@ def main():
         choices=sorted(Exercise.available_analyzers().keys()),
         help="name of the exercise to analyze (One of: %(choices)s)",
     )
-    parser.add_argument(
-        "directory",
-        metavar="DIR",
-        type=directory,
-        help="directory where the the [EXERCISE].py file located",
-    )
-    args = parser.parse_args()
 
-    exercise = Exercise.factory(args.exercise, args.directory)
+    parser.add_argument(
+        "input",
+        metavar="IN",
+        type=directory,
+        help="directory where the [EXERCISE.py] file is located",
+    )
+
+    parser.add_argument(
+        "output",
+        metavar="OUT",
+        type=directory,
+        help="directory where the results.json files will be written",
+    )
+
+    args = parser.parse_args()
+    exercise = Exercise.factory(args.exercise, args.input, args.output)
     exercise.analyze()
 
 
