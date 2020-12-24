@@ -25,7 +25,8 @@ class Exercise(NamedTuple):
     """
 
     name: str
-    path: Path
+    in_path: Path
+    out_path: Path
     tests_path: Path
 
     @property
@@ -53,7 +54,7 @@ class Exercise(NamedTuple):
         """
         Perform automatic analysis on this Exercise.
         """
-        return self.analyzer.analyze(self.path)
+        return self.analyzer.analyze(self.in_path, self.out_path)
 
     @staticmethod
     def sanitize_name(name: str) -> str:
@@ -70,7 +71,7 @@ class Exercise(NamedTuple):
         return ANALYZERS
 
     @classmethod
-    def factory(cls, name: str, directory: Path) -> "Exercise":
+    def factory(cls, name: str, in_directory: Path, out_directory: Path) -> "Exercise":
         """
         Build an Exercise from its name and the directory where its files exist.
         """
@@ -78,6 +79,7 @@ class Exercise(NamedTuple):
             path = LIBRARY.joinpath(name, "analyzer.py")
             raise ExerciseError(f"No analyzer discovered at {path}")
         sanitized = cls.sanitize_name(name)
-        path = directory.joinpath(f"{sanitized}.py").resolve()
-        tests_path = directory.joinpath(f"{sanitized}_test.py").resolve()
-        return cls(name, path, tests_path)
+        in_path = in_directory.joinpath(f"{sanitized}.py").resolve()
+        out_path = out_directory.joinpath(f"{sanitized}.py").resolve()
+        tests_path = in_directory.joinpath(f"{sanitized}_test.py").resolve()
+        return cls(name, in_path, out_path, tests_path)

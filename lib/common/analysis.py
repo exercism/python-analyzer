@@ -106,11 +106,11 @@ class Analysis(dict):
             Status.REFER_TO_MENTOR, comment, pylint_comment or [], approvable=approvable
         )
 
-    def dump(self, path: Path):
+    def dump(self, out_path: Path):
         """
         Dump's the current state to analysis.json.
         As a convenience returns the Anaylsis itself.
         """
-        with open(path, "w") as dst:
+        with open(out_path, "w") as dst:
             json.dump(self, dst, indent=4, cls=AnalysisEncoder)
         return self

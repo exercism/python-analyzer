@@ -20,7 +20,7 @@ class Comments(BaseComments):
     PERCENT_FORMATTING = ("two-fer", "percent_formatting")
 
 
-def analyze(path: Path):
+def analyze(in_path: Path, out_path: Path):
     """
     Analyze the user's Two Fer solution to give feedback and disapprove malformed solutions. Outputs a JSON that
     conforms to Exercism's Auto-Mentor project interface.
@@ -30,11 +30,11 @@ def analyze(path: Path):
         and a 'status' string corresponding to the value of the status key in the generated JSON, as its fourth
         entry.
     """
-    output_file = path.parent.joinpath("analysis.json")
+    output_file = out_path.parent.joinpath("analysis.json")
 
     # Input file
     try:
-        user_solution = path.read_text()
+        user_solution = in_path.read_text()
     except OSError as err:
         # If the proper file cannot be found, disapprove this solution
         return Analysis.disapprove([Comments.NO_MODULE]).dump(output_file)
@@ -130,7 +130,7 @@ def analyze(path: Path):
         approvable = False
 
     # Use Pylint to generate comments for code, e.g. if code follows PEP8 Style Convention
-    pylint_stdout, _ = lint.py_run(str(path), return_std=True)
+    pylint_stdout, _ = lint.py_run(str(in_path), return_std=True)
     pylint_comments = [pylint_stdout.getvalue()]
 
     # Handle a known optimal solution
