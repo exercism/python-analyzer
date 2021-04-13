@@ -3,6 +3,7 @@ Helpers for exercise discovery and execution.
 """
 import sys
 import importlib
+import json
 from pathlib import Path
 from typing import NamedTuple
 
@@ -24,7 +25,7 @@ class Exercise(NamedTuple):
     Manages analysis of a an individual Exercise.
     """
 
-    name: str
+    slug: str
     in_path: Path
     out_path: Path
     tests_path: Path
@@ -34,9 +35,10 @@ class Exercise(NamedTuple):
         """
         The analyzer.py module for this Exercise, imported lazily.
         """
-        module_name = f"{Exercise.sanitize_name(self.name)}_analyzer"
+        module_name = f"{Exercise.sanitize_name(self.slug)}_analyzer"
+
         if module_name not in sys.modules:
-            module = self.available_analyzers()[self.name]
+            module = self.available_analyzers()[self.slug]
             spec = importlib.util.spec_from_file_location(module_name, module)
             analyzer = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(analyzer)
@@ -57,11 +59,11 @@ class Exercise(NamedTuple):
         return self.analyzer.analyze(self.in_path, self.out_path)
 
     @staticmethod
-    def sanitize_name(name: str) -> str:
+    def sanitize_name(slug: str) -> str:
         """
         Sanitize an Exercise name (ie "two-fer" -> "two_fer").
         """
-        return name.replace("-", "_")
+        return slug.replace("-", "_")
 
     @classmethod
     def available_analyzers(cls):
@@ -71,15 +73,31 @@ class Exercise(NamedTuple):
         return ANALYZERS
 
     @classmethod
-    def factory(cls, name: str, in_directory: Path, out_directory: Path) -> "Exercise":
+    def factory(cls, slug: str, in_directory: Path, out_directory: Path) -> "Exercise":
         """
         Build an Exercise from its name and the directory where its files exist.
         """
-        if name not in cls.available_analyzers():
-            path = LIBRARY.joinpath(name, "analyzer.py")
+
+        if slug not in cls.available_analyzers():
+            path = LIBRARY.joinpath(slug, "analyzer.py")
             raise ExerciseError(f"No analyzer discovered at {path}")
-        sanitized = cls.sanitize_name(name)
-        in_path = in_directory.joinpath(f"{sanitized}.py").resolve()
-        out_path = out_directory.joinpath(f"{sanitized}.py").resolve()
-        tests_path = in_directory.joinpath(f"{sanitized}_test.py").resolve()
-        return cls(name, in_path, out_path, tests_path)
+
+        in_path = None
+        out_path = None
+        tests_path = None
+
+        config_file = in_directory.joinpath(".meta").joinpath("config.json")
+
+        if config_file.is_file():
+            config_data = json.loads(config_file.read_text())
+            in_path = in_directory.joinpath(config_data.get('files', {}).get('solution')[0])
+            out_path = out_directory.joinpath(config_data.get('files', {}).get('solution')[0])
+            tests_path = in_directory.joinpath(config_data.get('files', {}).get('test')[0])
+
+        else:
+            sanitized = cls.sanitize_name(slug)
+            in_path = in_directory.joinpath(f"{sanitized}.py").resolve()
+            out_path = out_directory.joinpath(f"{sanitized}.py").resolve()
+            tests_path = in_directory.joinpath(f"{sanitized}_test.py").resolve()
+
+        return cls(slug, in_path, out_path, tests_path)
