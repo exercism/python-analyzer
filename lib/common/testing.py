@@ -6,13 +6,13 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Optional
 from .exercise import Exercise
-from .analysis import Status
+from .comment import Summary
 
 
 class BaseExerciseTest(ABC):
     @property
     @abstractmethod
-    def name(self) -> str:
+    def slug(self) -> str:
         """
         The name of the exercise under test (ie `two-fer`)
         """
@@ -37,7 +37,7 @@ class BaseExerciseTest(ABC):
         Basic test setup.
         """
         self.exercise = Exercise.factory(
-            self.name, Path(self.root.name).resolve(strict=True)
+            self.slug, Path(self.root.name).resolve(strict=True)
         )
         self.analyzer = self.exercise.analyzer
         self.comments = self.exercise.comments
@@ -77,9 +77,8 @@ class BaseExerciseTest(ABC):
         Ensure the analyzer can handle a missing module.
         """
         analysis = self.get_analysis(None)
-        self.assertIs(analysis.status, Status.DISAPPROVE)
+        self.assertIs(analysis.status, Summary.REQUIRE)
         self.assertIn(self.comments.NO_MODULE, analysis.comment)
-        self.assertIs(analysis.approvable, False)
 
     def test_has_module(self):
         """
@@ -93,9 +92,8 @@ class BaseExerciseTest(ABC):
         Ensure the analyzer can handle malformed code.
         """
         analysis = self.get_analysis("fed test();")
-        self.assertIs(analysis.status, Status.DISAPPROVE)
+        self.assertIs(analysis.status, Summary.REQUIRE)
         self.assertIn(self.comments.MALFORMED_CODE, analysis.comment)
-        self.assertIs(analysis.approvable, False)
 
     def test_no_malformed_code(self):
         """
