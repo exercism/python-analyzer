@@ -34,6 +34,6 @@ def generate_pylint_comments(in_path):
         if line[0]:
             pylint_comments.append(Comment(type=status_mapping[line[0]],
                                            params={'lineno': line[1], 'code': line[2], 'message': line[3]},
-                                           comment=f'python.pylint.generic.{line[0]}'))
+                                           comment=f'python.pylint.{line[0]}'))
 
     return pylint_comments
