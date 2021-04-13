@@ -4,28 +4,9 @@ Utility classes for analysis persistence.
 
 import json
 from pathlib import Path
-from enum import Enum, auto, unique
-from typing import List
-
-Comments = List[Enum]
-PylintComments = List[str]
-
-
-@unique
-class Status(Enum):
-    """
-    Status of the exercise under analysis.
-    """
-
-    APPROVE = auto()
-    DISAPPROVE = auto()
-    REFER_TO_MENTOR = auto()
-
-    def __str__(self):
-        return self.name.lower()
-
-    def __repr__(self):
-        return f"{self.__class__.__name__}.{self.name}"
+from enum import Enum
+from dataclasses import asdict, is_dataclass
+from common.comment import Summary
 
 
 class AnalysisEncoder(json.JSONEncoder):
@@ -36,6 +17,10 @@ class AnalysisEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, Enum):
             return str(obj)
+
+        elif is_dataclass(obj):
+            return asdict(obj)
+
         return json.JSONEncoder.default(self, obj)
 
 
@@ -44,67 +29,52 @@ class Analysis(dict):
     Represents the current state of the analysis of an exercise.
     """
 
-    def __init__(self, status, comment, pylint_comment, approvable=False):
-        super(Analysis, self).__init__(
-            status=status, comment=comment, pylint_comment=pylint_comment
-        )
-        self._approvable = approvable
+    def __init__(self, summary, comments):
+        super(Analysis, self).__init__(summary=summary, comments=comments)
+
 
     @property
-    def status(self) -> Status:
+    def summary(self) -> Summary:
         """
-        The current status of the analysis.
+        The current summary of the analysis.
         """
-        return self["status"]
+
+        return self["summary"]
 
     @property
-    def comment(self) -> Comments:
+    def comment(self):
         """
         The list of comments for the analysis.
         """
-        return self["comment"]
-
-    @property
-    def pylint_comment(self) -> PylintComments:
-        """
-        The list of pylint comments for the analysis.
-        """
-        return self["pylint_comment"]
-
-    @property
-    def approvable(self):
-        """
-        Is this analysis _considered_ approvable?
-        Note that this does not imply an approved status, but that the exercise
-        has hit sufficient points that a live Mentor would likely approve it.
-        """
-        return self._approvable
+        return self["comments"]
 
     @classmethod
-    def approve(cls, comment=None, pylint_comment=None):
+    def celebrate(cls,  comments=None):
         """
         Create an Anaylsis that is approved.
         If non-optimal, comment should be a list of Comments.
         """
-        return cls(
-            Status.APPROVE, comment or [], pylint_comment or [], approvable=True
-        )
+        return cls(Summary.CELEBRATE, comments or [])
+
 
     @classmethod
-    def disapprove(cls, comment, pylint_comment=None):
+    def require(cls, comments):
         """
         Create an Analysis that is disapproved.
         """
-        return cls(Status.DISAPPROVE, comment, pylint_comment or [])
+        return cls(Summary.REQUIRE, comments)
 
     @classmethod
-    def refer_to_mentor(cls, comment, pylint_comment=None, approvable=False):
+    def direct(cls, comments):
         """
         Create an Analysis that should be referred to a mentor.
         """
-        return cls(
-            Status.REFER_TO_MENTOR, comment, pylint_comment or [], approvable=approvable
-        )
+        return cls(Summary.DIRECT, comments)
+
+    @classmethod
+    def inform(cls, comments, pylint_comment=None):
+        return cls(Summary.INFORM, comments)
+
 
     def dump(self, out_path: Path):
         """
