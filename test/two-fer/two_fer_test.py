@@ -4,7 +4,6 @@ Unit tests for the two-fer analyzer.
 import sys
 import unittest
 from pathlib import Path
-from typing import NamedTuple
 
 ROOT = Path(__file__).resolve(strict=True).parent
 TESTS = ROOT.parent
@@ -15,16 +14,31 @@ LIBRARY = REPO.joinpath("lib").resolve(strict=True)
 if str(LIBRARY) not in sys.path:
     sys.path.insert(0, str(LIBRARY))
 
-from common import Exercise, Status, BaseExerciseTest
+from common import Analysis, BaseExerciseTest, BaseFeedback, Exercise, Summary
+
 
 USES_STRING_FORMAT = """
-def two_fer(name="you"):
+'''
+My Answer to Exercism Python Track Two-Fer Exercise.
+'''
+def two_fer(name='you'):
+    '''This function takes a name and prints out one for [name], one for me.
+
+    In the absence of a name, it prints you.'''
     return "One for {}, one for me.".format(name)
+    
 """
 
 USES_F_STRING = """
+'''
+My Answer to Exercisms Python Track Two-Fer Exercise.
+'''
 def two_fer(name="you"):
+    '''This function takes a name and prints out one for [name], one for me.
+
+      In the absence of a name, it prints you.'''
     return f"One for {name}, one for me."
+   
 """
 
 USES_PERCENT = """
@@ -66,7 +80,7 @@ class TwoFerTest(BaseExerciseTest, unittest.TestCase):
     Unit tests for the `two-fer` analyzer.
     """
     @property
-    def name(self):
+    def slug(self):
         """
         Name of the exercise.
         """
@@ -77,9 +91,7 @@ class TwoFerTest(BaseExerciseTest, unittest.TestCase):
         Test marks missing `two_fer` method.
         """
         analysis = self.get_analysis("def ref_owt(): pass")
-        self.assertIs(analysis.status, Status.DISAPPROVE)
-        self.assertIn(self.comments.NO_METHOD, analysis.comment)
-        self.assertIs(analysis.approvable, False)
+        self.assertIn(self.comments.NO_METHOD,  (item.comment for item in analysis['comments']))
 
     def test_has_method(self):
         """
@@ -93,8 +105,9 @@ class TwoFerTest(BaseExerciseTest, unittest.TestCase):
         Test marks simple concatenation.
         """
         analysis = self.get_analysis(USES_CONCAT)
-        self.assertIs(analysis.status, Status.REFER_TO_MENTOR)
-        self.assertIn(self.comments.SIMPLE_CONCAT, analysis.comment)
+        print(analysis)
+        self.assertIs(analysis.summary, Summary.DIRECT)
+        self.assertIn(self.comments.SIMPLE_CONCAT, (item.comment for item in analysis['comments']))
 
     def test_no_simple_concat(self):
         """
@@ -108,8 +121,8 @@ class TwoFerTest(BaseExerciseTest, unittest.TestCase):
         Test optimal solution that uses str.format.
         """
         analysis = self.get_analysis(USES_STRING_FORMAT)
-        self.assertIs(analysis.status, Status.APPROVE)
-        self.assertIs(analysis.approvable, True)
+        print(analysis)
+        self.assertIs(analysis.summary, Summary.CELEBRATE)
         self.assertFalse(analysis.comment)
 
     def test_approves_optimal_f_string(self):
@@ -117,8 +130,8 @@ class TwoFerTest(BaseExerciseTest, unittest.TestCase):
         Test optimal solution that uses f_strings.
         """
         analysis = self.get_analysis(USES_F_STRING)
-        self.assertIs(analysis.status, Status.APPROVE)
-        self.assertIs(analysis.approvable, True)
+        print(analysis)
+        self.assertIs(analysis.summary, Summary.CELEBRATE)
         self.assertFalse(analysis.comment)
 
     def test_no_def_arg(self):
@@ -126,8 +139,8 @@ class TwoFerTest(BaseExerciseTest, unittest.TestCase):
         Test marks missing default value.
         """
         analysis = self.get_analysis(NO_DEF_ARG)
-        self.assertIs(analysis.status, Status.REFER_TO_MENTOR)
-        self.assertIn(self.comments.NO_DEF_ARG, analysis.comment)
+        self.assertIs(analysis.summary, Summary.REQUIRE)
+        self.assertIn(self.comments.NO_DEF_ARG, (item.comment for item in analysis['comments']))
 
     def test_uses_def_args(self):
         """
@@ -136,13 +149,14 @@ class TwoFerTest(BaseExerciseTest, unittest.TestCase):
         analysis = self.get_analysis(USES_STRING_FORMAT)
         self.assertNotIn(self.comments.NO_DEF_ARG, analysis.comment)
 
+
     def test_uses_conditionals(self):
         """
         Test marks use of conditionals.
         """
         analysis = self.get_analysis(USES_CONDITIONAL)
-        self.assertIs(analysis.status, Status.REFER_TO_MENTOR)
-        self.assertIn(self.comments.CONDITIONALS, analysis.comment)
+        self.assertIs(analysis.summary, Summary.REQUIRE)
+        self.assertIn(self.comments.CONDITIONALS, (item.comment for item in analysis['comments']))
 
     def test_no_conditionals(self):
         """
@@ -156,46 +170,45 @@ class TwoFerTest(BaseExerciseTest, unittest.TestCase):
         Test marks missing return statement.
         """
         analysis = self.get_analysis(NO_RETURN)
-        self.assertIs(analysis.status, Status.DISAPPROVE)
-        self.assertIn(self.comments.NO_RETURN, analysis.comment)
-        self.assertIs(analysis.approvable, False)
+        self.assertIs(analysis.summary, Summary.REQUIRE)
+        self.assertIn(self.comments.NO_RETURN, (item.comment for item in analysis['comments']))
 
     def test_has_return(self):
         """
         Test no missing return statement false positive.
         """
         analysis = self.get_analysis(USES_STRING_FORMAT)
-        self.assertNotIn(self.comments.NO_RETURN, analysis.comment)
+        self.assertNotIn(self.comments.NO_RETURN, (item.comment for item in analysis['comments']))
 
     def test_wrong_def_arg(self):
         """
         Test marks incorrect default argument value.
         """
         analysis = self.get_analysis(WRONG_DEF_ARG)
-        self.assertIs(analysis.status, Status.REFER_TO_MENTOR)
-        self.assertIn(self.comments.WRONG_DEF_ARG, analysis.comment)
+        self.assertIs(analysis.summary, Summary.REQUIRE)
+        self.assertIn(self.comments.WRONG_DEF_ARG, (item.comment for item in analysis['comments']))
 
     def test_correct_def_arg(self):
         """
         Test no incorrect default argument value false positive.
         """
         analysis = self.get_analysis(USES_STRING_FORMAT)
-        self.assertNotIn(self.comments.WRONG_DEF_ARG, analysis.comment)
+        self.assertNotIn(self.comments.WRONG_DEF_ARG, (item.comment for item in analysis['comments']))
 
     def test_uses_percent(self):
         """
         Test marks using percent string formatting.
         """
         analysis = self.get_analysis(USES_PERCENT)
-        self.assertIs(analysis.status, Status.REFER_TO_MENTOR)
-        self.assertIn(self.comments.PERCENT_FORMATTING, analysis.comment)
+        self.assertIs(analysis.summary, Summary.DIRECT)
+        self.assertIn(self.comments.PERCENT_FORMATTING, (item.comment for item in analysis['comments']))
 
     def test_no_percent(self):
         """
         Test no percent string formatting false positive.
         """
         analysis = self.get_analysis(USES_STRING_FORMAT)
-        self.assertNotIn(self.comments.PERCENT_FORMATTING, analysis.comment)
+        self.assertNotIn(self.comments.PERCENT_FORMATTING, (item.comment for item in analysis['comments']))
 
 
 if __name__ == "__main__":
