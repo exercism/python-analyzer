@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from enum import Enum
 from dataclasses import asdict, is_dataclass
-from common.comment import Summary
+from common.comment import Comment, CommentTypes, Summary
 
 
 class AnalysisEncoder(json.JSONEncoder):
@@ -74,6 +74,24 @@ class Analysis(dict):
     @classmethod
     def inform(cls, comments, pylint_comment=None):
         return cls(Summary.INFORM, comments)
+
+    @classmethod
+    def summarize_comments(cls, comments, output_file, ideal=False):
+        comment_types = [item.type.name for item in comments]
+
+        # Summarize "optimal" solutions.
+        if (not comments) and ideal is True:
+            return Analysis.celebrate(comments).dump(output_file)
+
+        if 'ESSENTIAL' in comment_types:
+            print("I FOUND REQUIRED")
+            return Analysis.require(comments).dump(output_file)
+
+        if 'ACTIONABLE' in comment_types:
+            return Analysis.direct(comments).dump(output_file)
+
+        else:
+            return Analysis.inform(comments).dump(output_file)
 
 
     def dump(self, out_path: Path):
