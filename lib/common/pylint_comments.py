@@ -37,3 +37,4 @@ def generate_pylint_comments(in_path):
                                            comment=f'python.pylint.{line[0]}'))
 
     return pylint_comments
+    
