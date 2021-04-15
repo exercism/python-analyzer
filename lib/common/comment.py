@@ -58,7 +58,7 @@ class Summary(Enum):
     Summary of the comments for the exercise under analysis.
     """
 
-    CELEBRATE = "Congratulations!  This solution is very close to ideal!  We don't have any specific recommendations."
+    CELEBRATE = "Congratulations! This solution is very close to ideal! We don't have any specific recommendations."
     REQUIRE = "There are a few changes we'd like you to make before completing this exercise."
     DIRECT = "There are a few changes we suggest that can bring your solution closer to ideal."
     INFORM = "Good work! Here are some general recommendations for improving your Python code."
