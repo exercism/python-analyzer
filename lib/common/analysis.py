@@ -84,7 +84,6 @@ class Analysis(dict):
             return Analysis.celebrate(comments).dump(output_file)
 
         if 'ESSENTIAL' in comment_types:
-            print("I FOUND REQUIRED")
             return Analysis.require(comments).dump(output_file)
 
         if 'ACTIONABLE' in comment_types:
