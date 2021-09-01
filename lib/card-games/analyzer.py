@@ -1,6 +1,6 @@
 """
 Basic analyzer for the `card-games` exercise.
-Only has pylint checks active currently.
+Only Pylint checks are active currently.
 """
 import ast
 from pylint import epylint as lint
