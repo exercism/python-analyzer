@@ -1,2 +1,7 @@
-'return' is not used to return the result string. This solution should fail pytest.
-Try ```run pytest``` inside the two-fer directory and observe the pass/fail results.
+# general missing return statement
+
+A `return` statement is not being used in this function to return results.
+ This code should have failed one or more test cases during testing.
+
+Please review the test results, and edit the code accordingly.
+
