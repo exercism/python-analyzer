@@ -10,8 +10,6 @@ from common import Analysis, BaseFeedback, Summary
 from common.comment import Comment, CommentTypes
 from common.pylint_comments import generate_pylint_comments
 
-
-
 class Comments(BaseFeedback):
     NO_MODULE = ("general", "no_module")
     NO_METHOD = ("two-fer", "no_method")
@@ -19,7 +17,7 @@ class Comments(BaseFeedback):
 
 def analyze(in_path: Path, out_path: Path):
     """
-    Analyze the user's Two Fer solution to give feedback. Outputs a JSON that
+    Analyze the user's Two Fer solution to give feedback. Outputs JSON that
 
     conforms to https://github.com/exercism/docs/blob/main/building/tooling/analyzers/interface.md#output-format
     """
@@ -39,7 +37,6 @@ def analyze(in_path: Path, out_path: Path):
         if comments:
             return Analysis.require(comments).dump(output_file)
 
-
     # AST - if an AST can't be made, fail and bail
     try:
         tree = ast.parse(user_solution)
@@ -53,7 +50,5 @@ def analyze(in_path: Path, out_path: Path):
 
     # Generate PyLint comments for additional feedback.
     comments.extend(generate_pylint_comments(in_path))
-
-
 
     return Analysis.summarize_comments(comments, output_file)

@@ -10,8 +10,6 @@ from common import Analysis, BaseFeedback, Summary
 from common.comment import Comment, CommentTypes
 from common.pylint_comments import generate_pylint_comments
 
-
-
 class Comments(BaseFeedback):
     NO_MODULE = ("general", "no_module")
     NO_METHOD = ("two-fer", "no_method")
@@ -39,7 +37,6 @@ def analyze(in_path: Path, out_path: Path):
         if comments:
             return Analysis.require(comments).dump(output_file)
 
-
     # AST - if an AST can't be made, fail and bail
     try:
         tree = ast.parse(user_solution)
@@ -50,10 +47,7 @@ def analyze(in_path: Path, out_path: Path):
         if comments:
             return Analysis.require(comments).dump(output_file)
 
-
     # Generate PyLint comments for additional feedback.
     comments.extend(generate_pylint_comments(in_path))
-
-
 
     return Analysis.summarize_comments(comments, output_file)
