@@ -68,7 +68,7 @@ class Exercise(NamedTuple):
     @classmethod
     def available_analyzers(cls):
         """
-        Returns the map of avaiable EXERCISE/analyzer.py files.
+        Returns the map of available EXERCISE/analyzer.py files.
         """
         return ANALYZERS
 
