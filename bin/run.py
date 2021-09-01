@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 """
-CLI for the auto-analyzer for the Python track on Exercism.io.
+CLI for the auto-analyzer for the Python track on Exercism.org.
 ./bin/run.sh two_fer ~/solution-238382y7sds7fsadfasj23j/ ~/solution-238382y7sds7fsadfasj23j/output/
 """
 import argparse
