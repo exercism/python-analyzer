@@ -51,7 +51,7 @@ class Analysis(dict):
     @classmethod
     def celebrate(cls,  comments=None):
         """
-        Create an Anaylsis that is approved.
+        Create an Analysis that is approved.
         If non-optimal, comment should be a list of Comments.
         """
         return cls(Summary.CELEBRATE, comments or [])
@@ -96,7 +96,7 @@ class Analysis(dict):
     def dump(self, out_path: Path):
         """
         Dump's the current state to analysis.json.
-        As a convenience returns the Anaylsis itself.
+        As a convenience returns the Analysis itself.
         """
         with open(out_path, "w") as dst:
             json.dump(self, dst, indent=4, cls=AnalysisEncoder)
