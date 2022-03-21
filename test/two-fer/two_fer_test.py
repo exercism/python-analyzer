@@ -17,17 +17,18 @@ if str(LIBRARY) not in sys.path:
 from common import Analysis, BaseExerciseTest, BaseFeedback, Exercise, Summary
 
 
-USES_STRING_FORMAT = """
-'''
-My Answer to Exercism Python Track Two-Fer Exercise.
-'''
-def two_fer(name='you'):
-    '''This function takes a name and prints out one for [name], one for me.
+USES_STRING_FORMAT = '''
+"""Answer to Exercism Python Track Two-Fer Exercise.
+"""
 
-    In the absence of a name, it prints you.'''
+def two_fer(name="you"):
+    """Take a name and print out one for [name], one for me.
+
+    In the absence of a name, it print you."""
+    
     return "One for {}, one for me.".format(name)
     
-"""
+'''
 
 USES_F_STRING = """
 '''
