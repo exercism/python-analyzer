@@ -3,17 +3,17 @@ from pylint import epylint as lint
 from pathlib import Path
 
 
-def generate_pylint_comments(in_path):
-    '''
-        Use Pylint to generate additional feedback comments for code,
+def generate_pylint_comments(in_path, pylint_spec='/opt/analyzer/lib/common/.pylintrc'):
+    """Use Pylint to generate additional feedback comments for code.
 
         e.g. if code follows PEP8 Style Convention
-    '''
+    """
 
-    pylint_stdout, _ = lint.py_run(
-        str(in_path) + ' --score=no --msg-template="{category}, {line}, {msg_id} {symbol}, {msg}"',
-        return_std=True
-    )
+    template = '--msg-template="{category}, {line}, {msg_id} {symbol}, {msg}"'
+    rcfile = f'--rcfile={pylint_spec}'
+    cmnd_line_options = f" {rcfile} --score=no {template}"
+
+    pylint_stdout, _ = lint.py_run(str(in_path) + cmnd_line_options, return_std=True)
 
     status_mapping = {
         'informational': CommentTypes.INFORMATIVE,
