@@ -122,7 +122,7 @@ class TwoFerTest(BaseExerciseTest, unittest.TestCase):
         """
         analysis = self.get_analysis(USES_STRING_FORMAT)
         print(analysis)
-        self.assertIs(analysis.summary, Summary.CELEBRATE)
+        self.assertIs(analysis.summary, Summary.DIRECT)
         self.assertFalse(analysis.comment)
 
     def test_approves_optimal_f_string(self):
