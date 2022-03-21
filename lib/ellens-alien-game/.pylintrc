@@ -1,14 +1,11 @@
 ###########################################################################
-# This pylintrc file contains a best-effort configuration to uphold the
-# best-practices and style for the Python track of exercism.org.
+# This pylintrc file contains a best-effort configuration for the concept
+# exercise Ellen's Alien Game on the Python track of exercism.org.
 #
-# It is based on the the Google pylintrc & the Google Python style guide:
-#   https://google.github.io/styleguide/pyguide.html,
-#   https://google.github.io/styleguide/pylintrc
-#
-# Additions & alterations to the Google Style guide are noted in
-# the Exercism Python Track contributing guide:
-#   https://github.com/exercism/python/blob/main/CONTRIBUTING.md
+# **PLEASE NOTE**
+# Since this exercise covers the use of 'pass' as well as the use of class
+# attributes, we have disabled 'unnecessary-pass' and 'attribute-defined-outside-init'
+# and may disable similar checks in the future.
 ###########################################################################
 
 
@@ -60,7 +57,6 @@ confidence=
 #  inconsistent-return-statements,
 disable=arguments-differ,
         attribute-defined-outside-init,
-        filter-builtin-not-iterating,
         fixme,
         global-statement,
         implicit-str-concat-in-sequence,
