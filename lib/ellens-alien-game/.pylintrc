@@ -2,6 +2,10 @@
 # This pylintrc file contains a best-effort configuration for the concept
 # exercise Ellen's Alien Game on the Python track of exercism.org.
 #
+# Regarding single letter variable names: this Stack Overflow discussion
+# https://stackoverflow.com/questions/21833872/why-does-pylint-object-to-single-character-variable-names
+# explains why this is enforced.
+#
 # **PLEASE NOTE**
 # Since this exercise covers the use of 'pass' as well as the use of class
 # attributes, we have disabled 'unnecessary-pass' and 'attribute-defined-outside-init'
@@ -112,17 +116,17 @@ evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / stateme
 [BASIC]
 
 # Good variable names which should always be accepted, separated by a comma
-good-names=main,_
+good-names=main,_, item, element, index
 
 # Bad variable names which should always be refused, separated by a comma
-bad-names=x,y,i,l
+bad-names=x,y,i,l,L,O,j,m,n,k
 
 # Colon-delimited sets of names that determine each other's naming style when
 # the name regexes allow several styles.
 name-group=
 
 # Include a hint for the correct naming format with invalid-name
-include-naming-hint=no
+include-naming-hint=yes
 
 # List of decorators that produce properties, such as abc.abstractproperty. Add
 # to this list to register other decorators that produce valid properties.
@@ -132,7 +136,7 @@ property-classes=abc.abstractproperty,cached_property.cached_property,cached_pro
 function-rgx=^(?:(?P<exempt>setUp|tearDown|setUpModule|tearDownModule)|(?P<camel_case>_?[A-Z][a-zA-Z0-9]*)|(?P<snake_case>_?[a-z][a-z0-9_]*))$
 
 # Regular expression matching correct variable names
-variable-rgx=^[a-z][a-z0-9_]*$
+variable-rgx=^[a-z_][a-z0-9_]{1,30}$
 
 # Regular expression matching correct constant names
 const-rgx=^(_?[A-Z][A-Z0-9_]*|__[a-z0-9_]+__|_?[a-z][a-z0-9_]*)$
@@ -141,7 +145,7 @@ const-rgx=^(_?[A-Z][A-Z0-9_]*|__[a-z0-9_]+__|_?[a-z][a-z0-9_]*)$
 attr-rgx=^_{0,2}[a-z][a-z0-9_]*$
 
 # Regular expression matching correct argument names
-argument-rgx=^[a-z][a-z0-9_]*$
+argument-rgx=^[a-z_][a-z0-9_]{1,30}$
 
 # Regular expression matching correct class attribute names
 class-attribute-rgx=^(_?[A-Z][A-Z0-9_]*|__[a-z0-9_]+__|_?[a-z][a-z0-9_]*)$
