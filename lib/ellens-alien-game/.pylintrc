@@ -58,7 +58,17 @@ confidence=
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
-#  inconsistent-return-statements,
+
+# As of Pylint 2.6+, the following options are not supported, so they're commented out:
+#
+# misplaced-comparison-constant
+# relative-import
+# input-builtin
+# inconsistent-return-statements
+# no-absolute-import
+# raising-string
+# round-builtin
+
 disable=arguments-differ,
         attribute-defined-outside-init,
         fixme,
@@ -66,19 +76,13 @@ disable=arguments-differ,
         implicit-str-concat-in-sequence,
         import-error,
         import-self,
-        input-builtin,
         locally-disabled,
-        misplaced-comparison-constant,
-        no-absolute-import,
         no-else-break,
         no-else-continue,
         no-else-raise,
         no-else-return,
         no-member,
         no-name-in-module,
-        raising-string,
-        relative-import,
-        round-builtin,
         signature-differs,
         suppressed-message,
         too-many-boolean-expressions,
@@ -220,7 +224,8 @@ single-line-if-stmt=yes
 # separator` is used to allow tabulation in dicts, etc.: {1  : 1,\n222: 2}.
 # `trailing-comma` allows a space between comma and closing bracket: (a, ).
 # `empty-line` allows space-only lines.
-no-space-check=
+# As of Pylint 2.6+, this option has been disabled, so this is commented out.
+#no-space-check=
 
 # Maximum number of lines in a module
 max-module-lines=99999
