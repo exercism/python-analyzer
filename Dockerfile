@@ -1,4 +1,4 @@
-FROM python:3.10.6-slim
+FROM python:3.11.2-slim
 
 RUN apt-get update \
  && apt-get install curl -y \
@@ -12,3 +12,4 @@ WORKDIR /opt/analyzer
 
 RUN pip install -r requirements.txt -r dev-requirements.txt
 ENTRYPOINT ["/opt/analyzer/bin/run.sh"]
+
