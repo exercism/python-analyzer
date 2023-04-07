@@ -13,5 +13,5 @@ For example:
 Unit tests can be run from this directory:
 
 ```bash
-pylint -x
+pytest -x
 ```

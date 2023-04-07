@@ -104,6 +104,8 @@ confidence=
 #        unused-argument,
 #        unused-import,
 #        useless-suppression
+disable=trailing-whitespace,missing-final-newline
+
 
 [REPORTS]
 

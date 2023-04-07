@@ -1,1 +1,2 @@
-pylint~=2.14.5
+pylint >=2.17.1
+plerr ~=3.0.0
