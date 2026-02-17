@@ -1,0 +1,2 @@
+- [Format String Syntax](https://docs.python.org/3/library/string.html#formatstrings)
+- [PyFormat](https://pyformat.info/)

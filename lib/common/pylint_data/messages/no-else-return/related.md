@@ -1,0 +1,1 @@
+- [Unnecessary-else-statements](https://www.pythonmorsels.com/unnecessary-else-statements/)

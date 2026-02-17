@@ -1,0 +1,2 @@
+- [Should I always specify an exception type in \'except\'
+  statements?](https://stackoverflow.com/a/14797508/2519059)

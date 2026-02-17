@@ -1,0 +1,2 @@
+- [Why can\'t pylint recover from a syntax error
+  ?](https://stackoverflow.com/a/78419051/2519059)
