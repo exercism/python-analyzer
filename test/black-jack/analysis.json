@@ -1,0 +1,31 @@
+{
+    "summary": "There are a few suggested changes that can bring your solution closer to ideal.",
+    "comments": [
+        {
+            "comment": "python.pylint.convention",
+            "params": {
+                "lineno": "8",
+                "code": "C0116 missing-function-docstring",
+                "message": "Missing function or method docstring",
+                "bad_code": "Instead of: \n```python\nimport sys\n\n\ndef print_python_version():  # [missing-function-docstring]\n    print(sys.version)\n```\n\n",
+                "good_code": "Try: \n```python\nimport sys\n\n\ndef print_python_version():\n    \"\"\"Function printing python version.\"\"\"\n    print(sys.version)\n```\n\n",
+                "related_info": null,
+                "details": null
+            },
+            "type": "informative"
+        },
+        {
+            "comment": "python.pylint.refactor",
+            "params": {
+                "lineno": "10",
+                "code": "R1705 no-else-return",
+                "message": "Unnecessary \"elif\" after \"return\", remove the leading \"el\" from \"elif",
+                "bad_code": "Instead of: \n```python\ndef compare_numbers(a: int, b: int) -> int:\n    if a == b:  # [no-else-return]\n        return 0\n    elif a < b:\n        return -1\n    else:\n        return 1\n```\n\n",
+                "good_code": "Try: \n```python\ndef compare_numbers(a: int, b: int) -> int:\n    if a == b:\n        return 0\n    if a < b:\n        return -1\n    return 1\n```\n\n",
+                "related_info": "- [Unnecessary-else-statements](https://www.pythonmorsels.com/unnecessary-else-statements/)\n",
+                "details": null
+            },
+            "type": "actionable"
+        }
+    ]
+}

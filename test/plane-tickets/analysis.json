@@ -1,0 +1,18 @@
+{
+    "summary": "There are a few suggested changes that can bring your solution closer to ideal.",
+    "comments": [
+        {
+            "comment": "python.pylint.refactor",
+            "params": {
+                "lineno": "47",
+                "code": "R1708 stop-iteration-return",
+                "message": "Do not raise StopIteration in generator, use return statement instead",
+                "bad_code": "Instead of: \n```python\ndef fruit_generator():\n    for fruit in [\"apple\", \"banana\"]:\n        yield fruit\n    raise StopIteration  # [stop-iteration-return]\n\n# or\n\ndef two_fruits_generator(fruits):\n    for fruit in fruits:\n        yield fruit, next(fruits)  # [stop-iteration-return]\n\n# or\n\ndef two_good_fruits_generator(fruits):\n    for fruit in fruits:\n        if not fruit.is_tasty():\n            continue\n        while True:\n            next_fruit = next(fruits)  # [stop-iteration-return]\n            if next_fruit.is_tasty():\n                yield fruit, next_fruit\n                break\n```\n\n",
+                "good_code": "Try: \n```python\ndef fruit_generator():\n    \"\"\"The example is simple enough you don't need an explicit return.\"\"\"\n    for fruit in [\"apple\", \"banana\"]:\n        yield fruit\n\n# or\n\ndef two_fruits_generator(fruits):\n    \"\"\"Catching the StopIteration.\"\"\"\n    for fruit in fruits:\n        try:\n            yield fruit, next(fruits)\n        except StopIteration:\n            print(\"Sorry there is only one fruit left.\")\n            yield fruit, None\n\n# or\n\ndef two_good_fruits_generator(fruits):\n    \"\"\"A return can be used to end the iterator early, but not a StopIteration.\"\"\"\n    for fruit in fruits:\n        if not fruit.is_tasty():\n            continue\n        while True:\n            next_fruit = next(fruits, None)\n            if next_fruit is None:\n                print(\"Sorry there is only one fruit left.\")\n                yield fruit, None\n                # We reached the end of the 'fruits' generator but raising a\n                # StopIteration instead of returning would create a RuntimeError\n                return\n            if next_fruit.is_tasty():\n                yield fruit, next_fruit\n                break\n```\n\n",
+                "related_info": "- [PEP 479](https://peps.python.org/pep-0479/)\n",
+                "details": "It\\'s possible to give a default value to `next` or catch the\n`StopIteration`, or return directly. A `StopIteration` cannot be\npropagated from a generator.\n"
+            },
+            "type": "actionable"
+        }
+    ]
+}
