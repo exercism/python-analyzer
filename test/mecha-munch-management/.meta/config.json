@@ -1,0 +1,24 @@
+{
+  "authors": [
+    "meatball133",
+    "BethanyG"
+  ],
+  "contributors": [
+  ],
+  "files": {
+    "solution": [
+      "dict_methods.py"
+    ],
+    "test": [
+      "dict_methods_test.py"
+    ],
+    "exemplar": [
+      ".meta/exemplar.py"
+    ],
+    "editor": [
+      "dict_methods_test_data.py"
+    ]
+  },
+  "icon": "gross-store",
+  "blurb": "Learn about dictionary methods by building a shopping cart MVP for the Mecha Munch grocery app."
+}

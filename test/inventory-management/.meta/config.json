@@ -1,0 +1,24 @@
+{
+  "authors": [
+    "j08k"
+  ],
+  "contributors": [
+    "valentin-p",
+    "bethanyG",
+    "mukeshgurpude",
+    "kotp"
+  ],
+  "files": {
+    "solution": [
+      "dicts.py"
+    ],
+    "test": [
+      "dicts_test.py"
+    ],
+    "exemplar": [
+      ".meta/exemplar.py"
+    ]
+  },
+  "icon": "high-scores",
+  "blurb": "Learn about dicts by managing warehouse inventory."
+}
