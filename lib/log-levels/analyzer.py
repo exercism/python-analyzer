@@ -1,8 +1,5 @@
 """
-Generic Analyzer for the exercises that don't have a specific
-analyzer or specific customizations.
-
-Only Pylint comments are active.
+Analyzer for the `log-levels` exercise.
 """
 
 import ast

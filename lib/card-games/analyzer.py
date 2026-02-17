@@ -1,23 +1,32 @@
 """
 Basic analyzer for the `card-games` exercise.
-Only Pylint checks are active currently.
+Only Pylint checks are currently active.
 """
+
 import ast
-from pylint import epylint as lint
+
+from io import StringIO
+from pylint.lint import Run
+from pylint import run_pylint
 from pathlib import Path
+from pylint.reporters.text import TextReporter
 
 from common import Analysis, BaseFeedback, Summary
 from common.comment import Comment, CommentTypes
 from common.pylint_comments import generate_pylint_comments
 
+
 class Comments(BaseFeedback):
     NO_MODULE = ("general", "no_module")
     NO_METHOD = ("two-fer", "no_method")
+    NO_RETURN = ("general", "no_return")
     MALFORMED_CODE = ("general", "malformed_code")
+    GENERAL_RECS = ("general", "general_recommendations")
+
 
 def analyze(in_path: Path, out_path: Path):
     """
-    Analyze the user's Two Fer solution to give feedback. Outputs JSON that
+    Analyze the user's Two Fer solution to give feedback. Outputs a JSON that
 
     conforms to https://github.com/exercism/docs/blob/main/building/tooling/analyzers/interface.md#output-format
     """
@@ -47,8 +56,11 @@ def analyze(in_path: Path, out_path: Path):
         if comments:
             return Analysis.require(comments).dump(output_file)
 
-
     # Generate PyLint comments for additional feedback.
     comments.extend(generate_pylint_comments(in_path))
+
+     # If there are no comments, add the general recommendations as comments.
+    if not comments:
+        comments.append(Comment(type=CommentTypes.INFORMATIVE, params={}, comment=Comments.GENERAL_RECS))
 
     return Analysis.summarize_comments(comments, output_file)
