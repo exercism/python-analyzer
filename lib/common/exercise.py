@@ -14,8 +14,13 @@ LIBRARY = ROOT.parent.resolve(strict=True)
 # no specific one is found in the directory.
 ANALYZERS = {analyzer.parent.name: analyzer for analyzer in LIBRARY.glob("*/analyzer.py")}
 
-for directory in LIBRARY.glob("*/"):
-    ANALYZERS.setdefault(directory.name, Path('/opt/analyzer/lib/common/generic_analyzer/analyzer.py'))
+file_path = Path('/opt/analyzer/lib/common/exercise-names.txt')
+
+with open(file_path, 'r') as file:
+    content = file.read().splitlines()
+
+for exercise in content:
+    ANALYZERS.setdefault(exercise, Path('/opt/analyzer/lib/common/generic_analyzer/analyzer.py'))
 
 
 class ExerciseError(Exception):
