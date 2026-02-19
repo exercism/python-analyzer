@@ -2,8 +2,10 @@
 Analyzer for the `two-fer` exercise.
 """
 import ast
-from pylint import epylint as lint
+from io import StringIO
+from pylint.lint import Run
 from pathlib import Path
+
 
 from common import Analysis, BaseFeedback, Summary
 from common.comment import Comment, CommentTypes

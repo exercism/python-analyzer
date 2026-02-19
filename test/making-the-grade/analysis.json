@@ -1,0 +1,18 @@
+{
+    "summary": "There are a few suggested changes that can bring your solution closer to ideal.",
+    "comments": [
+        {
+            "comment": "python.pylint.refactor",
+            "params": {
+                "lineno": "24",
+                "code": "R1728 consider-using-generator",
+                "message": "Consider using a generator instead 'sum(1 for score in student_scores if score <= 40)'",
+                "bad_code": "Instead of: \n```python\nlist([0 for y in list(range(10))])  # [consider-using-generator]\ntuple([0 for y in list(range(10))])  # [consider-using-generator]\nsum([y**2 for y in list(range(10))])  # [consider-using-generator]\nmax([y**2 for y in list(range(10))])  # [consider-using-generator]\nmin([y**2 for y in list(range(10))])  # [consider-using-generator]\n```\n\n",
+                "good_code": "Try: \n```python\nlist(0 for y in list(range(10)))\ntuple(0 for y in list(range(10)))\nsum(y**2 for y in list(range(10)))\nmax(y**2 for y in list(range(10)))\nmin(y**2 for y in list(range(10)))\n```\n\n",
+                "related_info": "- [PEP 289](https://peps.python.org/pep-0289/)\n- [Benchmark and discussion for\n  any/all/list/tuple](https://github.com/pylint-dev/pylint/pull/3309#discussion_r576683109)\n- [Benchmark and discussion for\n  sum/max/min](https://github.com/pylint-dev/pylint/pull/6595#issuecomment-1125704244)\n",
+                "details": "Removing `[]` inside calls that can use containers or generators should\nbe considered for performance reasons since a generator will have an\nupfront cost to pay. The performance will be better if you are working\nwith long lists or sets.\n\nFor `max`, `min` and `sum` using a generator is also recommended by\npep289.\n"
+            },
+            "type": "actionable"
+        }
+    ]
+}

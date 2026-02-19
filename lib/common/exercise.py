@@ -1,6 +1,5 @@
-"""
-Helpers for exercise discovery and execution.
-"""
+"""Helpers for exercise discovery and execution."""
+
 import sys
 import importlib
 import json
@@ -10,8 +9,18 @@ from typing import NamedTuple
 ROOT = Path(__file__).resolve(strict=True).parent
 LIBRARY = ROOT.parent.resolve(strict=True)
 
-# map each available exercise name to its EXERCISE/anaylzer.py module
-ANALYZERS = {f.parent.name: f for f in LIBRARY.glob("*/analyzer.py")}
+# Map each available exercise name to its EXERCISE/analyzer.py module.
+# Use the analyzer at /opt/analyzer/lib/generic/analyzer.py if
+# no specific one is found in the directory.
+ANALYZERS = {analyzer.parent.name: analyzer for analyzer in LIBRARY.glob("*/analyzer.py")}
+
+file_path = Path('/opt/analyzer/lib/common/exercise-names.txt')
+
+with open(file_path, 'r') as file:
+    content = file.read().splitlines()
+
+for exercise in content:
+    ANALYZERS.setdefault(exercise, Path('/opt/analyzer/lib/common/generic_analyzer/analyzer.py'))
 
 
 class ExerciseError(Exception):

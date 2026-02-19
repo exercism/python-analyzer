@@ -1,0 +1,83 @@
+{
+    "summary": "There are a few suggested changes that can bring your solution closer to ideal.",
+    "comments": [
+        {
+            "comment": "python.pylint.convention",
+            "params": {
+                "lineno": "1",
+                "code": "C0114 missing-module-docstring",
+                "message": "Missing module docstring",
+                "bad_code": "Instead of: \n```python\nimport sys  # [missing-module-docstring]\n\n\ndef print_python_version():\n    print(sys.version)\n```\n\n",
+                "good_code": "Try: \n```python\n\"\"\"Module providing a function printing python version.\"\"\"\n\nimport sys\n\n\ndef print_python_version():\n    print(sys.version)\n```\n\n",
+                "related_info": null,
+                "details": null
+            },
+            "type": "informative"
+        },
+        {
+            "comment": "python.pylint.convention",
+            "params": {
+                "lineno": "8",
+                "code": "C0116 missing-function-docstring",
+                "message": "Missing function or method docstring",
+                "bad_code": "Instead of: \n```python\nimport sys\n\n\ndef print_python_version():  # [missing-function-docstring]\n    print(sys.version)\n```\n\n",
+                "good_code": "Try: \n```python\nimport sys\n\n\ndef print_python_version():\n    \"\"\"Function printing python version.\"\"\"\n    print(sys.version)\n```\n\n",
+                "related_info": null,
+                "details": null
+            },
+            "type": "informative"
+        },
+        {
+            "comment": "python.pylint.refactor",
+            "params": {
+                "lineno": "9",
+                "code": "R1720 no-else-raise",
+                "message": "Unnecessary \"elif\" after \"raise\", remove the leading \"el\" from \"elif",
+                "bad_code": "Instead of: \n```python\ndef integer_sum(a: int, b: int) -> int:\n    if not (isinstance(a, int) and isinstance(b, int)):  # [no-else-raise]\n        raise ValueError(\"Function supports only integer parameters.\")\n    else:\n        return a + b\n```\n\n",
+                "good_code": "Try: \n```python\ndef integer_sum(a: int, b: int) -> int:\n    if not (isinstance(a, int) and isinstance(b, int)):\n        raise ValueError(\"Function supports only integer parameters.\")\n    return a + b\n```\n\n",
+                "related_info": null,
+                "details": null
+            },
+            "type": "actionable"
+        },
+        {
+            "comment": "python.pylint.refactor",
+            "params": {
+                "lineno": "32",
+                "code": "R1720 no-else-raise",
+                "message": "Unnecessary \"else\" after \"raise\", remove the \"else\" and de-indent the code inside it",
+                "bad_code": "Instead of: \n```python\ndef integer_sum(a: int, b: int) -> int:\n    if not (isinstance(a, int) and isinstance(b, int)):  # [no-else-raise]\n        raise ValueError(\"Function supports only integer parameters.\")\n    else:\n        return a + b\n```\n\n",
+                "good_code": "Try: \n```python\ndef integer_sum(a: int, b: int) -> int:\n    if not (isinstance(a, int) and isinstance(b, int)):\n        raise ValueError(\"Function supports only integer parameters.\")\n    return a + b\n```\n\n",
+                "related_info": null,
+                "details": null
+            },
+            "type": "actionable"
+        },
+        {
+            "comment": "python.pylint.refactor",
+            "params": {
+                "lineno": "37",
+                "code": "R1720 no-else-raise",
+                "message": "Unnecessary \"else\" after \"raise\", remove the \"else\" and de-indent the code inside it",
+                "bad_code": "Instead of: \n```python\ndef integer_sum(a: int, b: int) -> int:\n    if not (isinstance(a, int) and isinstance(b, int)):  # [no-else-raise]\n        raise ValueError(\"Function supports only integer parameters.\")\n    else:\n        return a + b\n```\n\n",
+                "good_code": "Try: \n```python\ndef integer_sum(a: int, b: int) -> int:\n    if not (isinstance(a, int) and isinstance(b, int)):\n        raise ValueError(\"Function supports only integer parameters.\")\n    return a + b\n```\n\n",
+                "related_info": null,
+                "details": null
+            },
+            "type": "actionable"
+        },
+        {
+            "comment": "python.pylint.refactor",
+            "params": {
+                "lineno": "8",
+                "code": "R0912 too-many-branches",
+                "message": "Too many branches (13/12)",
+                "bad_code": "Instead of: \n```python\ndef num_to_word(x):  # [too-many-branches]\n    if x == 0:\n        return \"zero\"\n    elif x == 1:\n        return \"one\"\n    elif x == 2:\n        return \"two\"\n    elif x == 3:\n        return \"three\"\n    elif x == 4:\n        return \"four\"\n    elif x == 5:\n        return \"five\"\n    elif x == 6:\n        return \"six\"\n    elif x == 7:\n        return \"seven\"\n    elif x == 8:\n        return \"eight\"\n    elif x == 9:\n        return \"nine\"\n    else:\n        return None\n```\n\n",
+                "good_code": "Try: \n```python\ndef num_to_word(x):\n    return {\n        0: \"zero\",\n        1: \"one\",\n        2: \"two\",\n        3: \"three\",\n        4: \"four\",\n        5: \"five\",\n        6: \"six\",\n        7: \"seven\",\n        8: \"eight\",\n        9: \"nine\",\n    }.get(x)\n```\n\n",
+                "related_info": null,
+                "details": null
+            },
+            "type": "actionable"
+        }
+    ]
+}

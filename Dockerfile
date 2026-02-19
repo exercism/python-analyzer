@@ -1,15 +1,12 @@
-FROM python:3.11.2-slim
+FROM python:3.13.5-alpine3.22
 
-RUN apt-get update \
- && apt-get install curl -y \
- && apt-get remove curl -y \
- && apt-get autoremove -y \
- && rm -rf /var/lib/apt/lists/*
+COPY requirements.txt /requirements.txt
+COPY dev-requirements.txt /dev-requirements.txt
 
-RUN mkdir /opt/analyzer
+RUN pip install -r /requirements.txt -r /dev-requirements.txt
+
 COPY . /opt/analyzer
+
 WORKDIR /opt/analyzer
 
-RUN pip install -r requirements.txt -r dev-requirements.txt
-ENTRYPOINT ["/opt/analyzer/bin/run.sh"]
-
+ENTRYPOINT ["sh", "/opt/analyzer/bin/run.sh"]

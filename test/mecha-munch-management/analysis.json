@@ -1,0 +1,31 @@
+{
+    "summary": "Good work! \ud83c\udf1f Here are some general recommendations for improving your Python code.",
+    "comments": [
+        {
+            "comment": "python.pylint.convention",
+            "params": {
+                "lineno": "4",
+                "code": "C0116 missing-function-docstring",
+                "message": "Missing function or method docstring",
+                "bad_code": "Instead of: \n```python\nimport sys\n\n\ndef print_python_version():  # [missing-function-docstring]\n    print(sys.version)\n```\n\n",
+                "good_code": "Try: \n```python\nimport sys\n\n\ndef print_python_version():\n    \"\"\"Function printing python version.\"\"\"\n    print(sys.version)\n```\n\n",
+                "related_info": null,
+                "details": null
+            },
+            "type": "informative"
+        },
+        {
+            "comment": "python.pylint.convention",
+            "params": {
+                "lineno": "61",
+                "code": "C0116 missing-function-docstring",
+                "message": "Missing function or method docstring",
+                "bad_code": "Instead of: \n```python\nimport sys\n\n\ndef print_python_version():  # [missing-function-docstring]\n    print(sys.version)\n```\n\n",
+                "good_code": "Try: \n```python\nimport sys\n\n\ndef print_python_version():\n    \"\"\"Function printing python version.\"\"\"\n    print(sys.version)\n```\n\n",
+                "related_info": null,
+                "details": null
+            },
+            "type": "informative"
+        }
+    ]
+}

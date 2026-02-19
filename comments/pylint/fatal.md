@@ -1,8 +1,8 @@
 # pylint fatal
 
-**Line %{lineno}** [ _%{code}_ ]  :  %{message}.
- Was reported.
+**Line %{lineno} [_%{code}_]** was reported by Pylint:
 
-This is a fatal error.
-Something went wrong, and the code cannot be processed any further.
+%{message}.
 
+
+This is a fatal error. Something went wrong, and the code cannot be processed any further.

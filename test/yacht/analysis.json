@@ -1,0 +1,18 @@
+{
+    "summary": "Good work! \ud83c\udf1f Here are some general recommendations for improving your Python code.",
+    "comments": [
+        {
+            "comment": "python.pylint.convention",
+            "params": {
+                "lineno": "1",
+                "code": "C0114 missing-module-docstring",
+                "message": "Missing module docstring",
+                "bad_code": "Instead of: \n```python\nimport sys  # [missing-module-docstring]\n\n\ndef print_python_version():\n    print(sys.version)\n```\n\n",
+                "good_code": "Try: \n```python\n\"\"\"Module providing a function printing python version.\"\"\"\n\nimport sys\n\n\ndef print_python_version():\n    print(sys.version)\n```\n\n",
+                "related_info": null,
+                "details": null
+            },
+            "type": "informative"
+        }
+    ]
+}

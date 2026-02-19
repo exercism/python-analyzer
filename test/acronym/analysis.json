@@ -1,0 +1,31 @@
+{
+    "summary": "Good work! \ud83c\udf1f Here are some general recommendations for improving your Python code.",
+    "comments": [
+        {
+            "comment": "python.pylint.convention",
+            "params": {
+                "lineno": "6",
+                "code": "C0304 missing-final-newline",
+                "message": "Final newline missing",
+                "bad_code": "Instead of: \n```python\nprint(\"Hello\")  # CRLF (\\r\\n)\nprint(\"world\")  # End-of-file (EOF)\n# [missing-final-newline]\n\nprint(\"Hello\")  # LF (\\n)\nprint(\"world\")  # End-of-file (EOF)\n# [missing-final-newline]\n\n```\n\n",
+                "good_code": "Try: \n```python\nprint(\"Hello\")  # CRLF (\\r\\n)\nprint(\"world\")  # CRLF (\\r\\n)\n# End-of-file (EOF)\n\nprint(\"Hello\")  # LF (\\n)\nprint(\"world\")  # LF (\\n)\n# End-of-file (EOF)\n```\n\n",
+                "related_info": "- [POSIX Standard](https://pubs.opengroup.org/onlinepubs/9699919799/)\n- [POSIX Standard Chapter 3.206\n  Line](https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_206)\n",
+                "details": "The POSIX standard defines a line as:\n\n:   \\\"A sequence of zero or more non- \\<newline\\> characters plus a\n    terminating \\<newline\\> character.\\\"\n"
+            },
+            "type": "informative"
+        },
+        {
+            "comment": "python.pylint.convention",
+            "params": {
+                "lineno": "1",
+                "code": "C0114 missing-module-docstring",
+                "message": "Missing module docstring",
+                "bad_code": "Instead of: \n```python\nimport sys  # [missing-module-docstring]\n\n\ndef print_python_version():\n    print(sys.version)\n```\n\n",
+                "good_code": "Try: \n```python\n\"\"\"Module providing a function printing python version.\"\"\"\n\nimport sys\n\n\ndef print_python_version():\n    print(sys.version)\n```\n\n",
+                "related_info": null,
+                "details": null
+            },
+            "type": "informative"
+        }
+    ]
+}

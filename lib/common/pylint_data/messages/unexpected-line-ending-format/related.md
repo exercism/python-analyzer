@@ -1,0 +1,5 @@
+- [History of CRLF and LF](https://stackoverflow.com/a/6521730/2519059)
+- [Dealing with line endings in
+  Git](https://stackoverflow.com/a/10855862/2519059)
+- [A Collection of Useful .gitattributes
+  Templates](https://github.com/alexkaratarakis/gitattributes)

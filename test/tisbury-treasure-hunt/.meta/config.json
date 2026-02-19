@@ -1,0 +1,18 @@
+{
+  "authors": [
+    "BethanyG"
+  ],
+  "files": {
+    "solution": [
+      "tuples.py"
+    ],
+    "test": [
+      "tuples_test.py"
+    ],
+    "exemplar": [
+      ".meta/exemplar.py"
+    ]
+  },
+  "icon": "tisbury-treasure-hunt",
+  "blurb": "Learn about tuples by helping out competitors in the Tisbury Treasure Hunt."
+}

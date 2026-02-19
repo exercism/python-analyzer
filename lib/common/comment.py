@@ -1,9 +1,10 @@
 """
 Classes for working with comments and comment types.
 """
+
+
 from enum import Enum, unique
 from dataclasses import dataclass, field, asdict
-
 
 
 @unique
@@ -51,7 +52,6 @@ class Comment:
 
 
 
-
 @unique
 class Summary(Enum):
     """
@@ -60,9 +60,9 @@ class Summary(Enum):
 
     CELEBRATE = "🎉 Congratulations! This solution is very close to ideal! We don't have any specific recommendations."
     REQUIRE = "There are a few changes we'd like you to make before completing this exercise."
-    DIRECT = "There are a few changes we suggest that can bring your solution closer to ideal."
+    DIRECT = "There are a few suggested changes that can bring your solution closer to ideal."
     INFORM = "Good work! 🌟 Here are some general recommendations for improving your Python code."
-    GENERIC = "We don't have a custom analysis for this exercise yet, but here are some comments from PyLint to help you improve your code."
+    GENERIC = "We don't have a custom analysis for this exercise yet, but here are some general recommendations to improve your Python code."
 
     def __str__(self):
         return self.value

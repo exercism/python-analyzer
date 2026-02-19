@@ -1,0 +1,23 @@
+{
+  "authors": [
+    "J08K"
+  ],
+  "contributors": [
+    "BethanyG",
+    "kytrinyx",
+    "meatball133"
+  ],
+  "files": {
+    "solution": [
+      "generators.py"
+    ],
+    "test": [
+      "generators_test.py"
+    ],
+    "exemplar": [
+      ".meta/exemplar.py"
+    ]
+  },
+  "icon": "new-passport",
+  "blurb": "Learn about generators by assigning seats to passengers on Anaconda Airlines."
+}

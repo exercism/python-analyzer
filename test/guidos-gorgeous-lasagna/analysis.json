@@ -1,0 +1,18 @@
+{
+    "summary": "There are a few suggested changes that can bring your solution closer to ideal.",
+    "comments": [
+        {
+            "comment": "python.pylint.convention",
+            "params": {
+                "lineno": "7",
+                "code": "C0103 invalid-name",
+                "message": "Constant name \"expected_bake_time\" doesn't conform to UPPER_CASE naming style ('([^\\\\W\\\\da-z][^\\\\Wa-z]*|__.*__)$' pattern)",
+                "bad_code": "Instead of: \n```python\nclass cat:  # [invalid-name]\n    def Meow(self, NUMBER_OF_MEOW):  # [invalid-name, invalid-name]\n        print(\"Meow\" * NUMBER_OF_MEOW)\n        return NUMBER_OF_MEOW\n\n\nCat = cat().Meow(42)  # [invalid-name]\n```\n\n",
+                "good_code": "Try: \n```python\nclass Cat:\n    def meow(self, number_of_meow):\n        print(\"Meow\" * number_of_meow)\n        return number_of_meow\n\n\nCAT = Cat().meow(42)\n```\n\n",
+                "related_info": null,
+                "details": "By default, Pylint will enforce\n[PEP8](https://peps.python.org/pep-0008)-suggested names.\n\nThe following naming suggestions are used for Exercism exercises:\n\n- modules (code files): snake_case\n- constants: UPPER_CASE\n- variables: snake_case (minimum of 3 letters)\n- functions: snake_case\n- arguments: snake_case\n- attributes: snake_case\n- classes: PascalCase\n- class attributes: any (no specific format)\n- class constants: UPPER_CASE\n- class methods: snake_case\n- inline variables and loop variables: snake_case\n"
+            },
+            "type": "actionable"
+        }
+    ]
+}
