@@ -202,7 +202,10 @@ disable=raw-checker-failed,
         too-many-public-methods,
         too-many-return-statements,
         too-many-statements,
-        unnecessary-pass
+        unnecessary-pass,
+        trailing-whitespace,
+        missing-final-newline
+
 
 # Include some helpful details on errors messages for naming rules:
 include-naming-hint = yes
