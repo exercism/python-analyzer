@@ -1,0 +1,70 @@
+{
+    "summary": "There are a few suggested changes that can bring your solution closer to ideal.",
+    "comments": [
+        {
+            "comment": "python.pylint.convention",
+            "params": {
+                "lineno": "1",
+                "code": "C0114 missing-module-docstring",
+                "message": "Missing module docstring",
+                "bad_code": "Instead of: \n```python\nimport sys  # [missing-module-docstring]\n\n\ndef print_python_version():\n    print(sys.version)\n```\n\n",
+                "good_code": "Try: \n```python\n\"\"\"Module providing a function printing python version.\"\"\"\n\nimport sys\n\n\ndef print_python_version():\n    print(sys.version)\n```\n\n",
+                "related_info": null,
+                "details": null
+            },
+            "type": "informative"
+        },
+        {
+            "comment": "python.pylint.convention",
+            "params": {
+                "lineno": "4",
+                "code": "C0115 missing-class-docstring",
+                "message": "Missing class docstring",
+                "bad_code": "Instead of: \n```python\nclass Person:  # [missing-class-docstring]\n    def __init__(self, first_name, last_name):\n        self.first_name = first_name\n        self.last_name = last_name\n```\n\n",
+                "good_code": "Try: \n```python\nclass Person:\n    \"\"\"Class representing a person\"\"\"\n\n    def __init__(self, first_name, last_name):\n        self.first_name = first_name\n        self.last_name = last_name\n```\n\n",
+                "related_info": null,
+                "details": null
+            },
+            "type": "actionable"
+        },
+        {
+            "comment": "python.pylint.refactor",
+            "params": {
+                "lineno": "16",
+                "code": "R1721 unnecessary-comprehension",
+                "message": "Unnecessary use of a comprehension, use list(vars(self).values()) instead.",
+                "bad_code": "Instead of: \n```python\nNUMBERS = [1, 1, 2, 2, 3, 3]\n\nUNIQUE_NUMBERS = {number for number in NUMBERS}  # [unnecessary-comprehension]\n```\n\n",
+                "good_code": "Try: \n```python\nNUMBERS = [1, 1, 2, 2, 3, 3]\n\nUNIQUE_NUMBERS = set(NUMBERS)\n```\n\n",
+                "related_info": null,
+                "details": null
+            },
+            "type": "actionable"
+        },
+        {
+            "comment": "python.pylint.refactor",
+            "params": {
+                "lineno": "19",
+                "code": "R6301 no-self-use",
+                "message": "Method could be a function",
+                "bad_code": "Instead of: \n```python\nclass Person:\n    def greeting(self):  # [no-self-use]\n        print(\"Greetings pythonista!\")\n```\n\n",
+                "good_code": "Try: \n```python\n# Function\ndef greeting():\n    print(\"Greetings pythonista!\")\n\n\n# Static Method\nclass Person:\n    @staticmethod\n    def greeting():\n        print(\"Greetings pythonista!\")\n\n# Use Self\nclass Person:\n    name: str = \"Amelia\"\n\n    def greeting(self):\n        print(f\"Greetings {self.name} the pythonista!\")\n```\n\n",
+                "related_info": null,
+                "details": "If a function is not using any class attribute it can be a\n`@staticmethod`, or a function outside the class.\n"
+            },
+            "type": "actionable"
+        },
+        {
+            "comment": "python.pylint.refactor",
+            "params": {
+                "lineno": "19",
+                "code": "R6301 no-self-use",
+                "message": "Method could be a function",
+                "bad_code": "Instead of: \n```python\nclass Person:\n    def greeting(self):  # [no-self-use]\n        print(\"Greetings pythonista!\")\n```\n\n",
+                "good_code": "Try: \n```python\n# Function\ndef greeting():\n    print(\"Greetings pythonista!\")\n\n\n# Static Method\nclass Person:\n    @staticmethod\n    def greeting():\n        print(\"Greetings pythonista!\")\n\n# Use Self\nclass Person:\n    name: str = \"Amelia\"\n\n    def greeting(self):\n        print(f\"Greetings {self.name} the pythonista!\")\n```\n\n",
+                "related_info": null,
+                "details": "If a function is not using any class attribute it can be a\n`@staticmethod`, or a function outside the class.\n"
+            },
+            "type": "actionable"
+        }
+    ]
+}

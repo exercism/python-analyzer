@@ -62,7 +62,8 @@ def analyze(in_path: Path, out_path: Path):
     comments.extend(generate_pylint_comments(in_path))
 
      # If there are no comments, add the general recommendations as comments.
-    if not comments:
-        comments.append(Comment(type=CommentTypes.INFORMATIVE, params={}, comment=Comments.GENERAL_RECS))
+     # We're disabling this for now, until we can find a better way to present these.
+    # if not comments:
+    #     comments.append(Comment(type=CommentTypes.INFORMATIVE, params={}, comment=Comments.GENERAL_RECS))
 
     return Analysis.summarize_comments(comments, output_file)
