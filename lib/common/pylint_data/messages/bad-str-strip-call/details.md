@@ -1,11 +1,11 @@
-A common misconception is that [str.strip(\'Hello\')]{.title-ref}
-removes the *substring* [\'Hello\']{.title-ref} from the beginning and
-end of the string. This is **not** the case. From the
-\[documentation\](<https://docs.python.org/3/library/stdtypes.html?highlight=strip#str.strip>):
+A common misconception is that [str.strip('Hello')](https://docs.python.org/3.13/library/stdtypes.html#str.strip)
+removes the *substring* `'Hello'` from the beginning and
+end of the larger lstring. This is **not** the case. From the
+[Python documentation](<https://docs.python.org/3/library/stdtypes.html?highlight=strip#str.strip>):
 
-\> The chars argument is not a prefix or suffix; rather, all
-combinations of its values are stripped.
+> The chars argument is not a prefix or suffix; rather, **all
+combinations of its values are stripped.**_
 
-Duplicated characters in the [str.strip]{.title-ref} call, besides not
+Duplicated characters in the [str.strip()](https://docs.python.org/3.13/library/stdtypes.html#str.strip) call, besides not
 having any effect on the actual result, may indicate this
 misunderstanding, and lead to future bugs.
