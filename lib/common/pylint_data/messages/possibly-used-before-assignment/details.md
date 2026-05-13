@@ -17,14 +17,13 @@ if suffix in "dmy":
     handle_date_suffix(suffix)
 ```
 
-Or, instead of [assert_never()]{.title-ref}, you can call a function
-with a return annotation of [Never]{.title-ref} or
-[NoReturn]{.title-ref}. Unlike in the general case, where by design
+Or, instead of [`assert_never()`](https://typing.python.org/en/latest/guides/unreachable.html#assert-never-and-exhaustiveness-checking), you can call a function
+with a return annotation of [`Never` or `NoReturn`](https://typing.python.org/en/latest/guides/unreachable.html#never-and-noreturn). Unlike in the general case, where (by design)
 pylint ignores type annotations and does its own static analysis, here,
 pylint treats these special annotations like a disable comment.
 
-Pylint currently allows repeating the same test like this, even though
-this lets some error cases through, as pylint does not assess the
+Pylint currently allows repeating the same test in this way, even though
+it lets some error cases through, as pylint does not assess the
 intervening code:
 
 ``` python

@@ -1,5 +1,5 @@
 A common issue is that this message is triggered when using
-[pytest]{.title-ref}
+[pytest](https://docs.pytest.org/en/stable/)
 [fixtures](https://docs.pytest.org/en/7.1.x/how-to/fixtures.html):
 
 ``` python
@@ -22,5 +22,5 @@ def setup_fixture():
     ...
 ```
 
-Alternatively [pylint]{.title-ref} plugins like
+Alternatively [pylint](https://www.pylint.org/) plugins like
 [pylint-pytest](https://pypi.org/project/pylint-pytest/) can be used.
