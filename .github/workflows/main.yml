@@ -25,5 +25,5 @@ jobs:
       - name: Build Docker Image
         run: docker build -f Dockerfile -t python-analyzer .
 
-      - name: Run Tests
-        run: docker run --entrypoint "pytest" python-analyzer
+      - name: Run Tests for Analyzer in Docker
+        run: bin/run-tests-in-docker.sh
