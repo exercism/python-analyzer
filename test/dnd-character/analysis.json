@@ -25,7 +25,7 @@
                 "related_info": null,
                 "details": null
             },
-            "type": "actionable"
+            "type": "informative"
         },
         {
             "comment": "python.pylint.refactor",
@@ -37,19 +37,6 @@
                 "good_code": "Try: \n```python\nNUMBERS = [1, 1, 2, 2, 3, 3]\n\nUNIQUE_NUMBERS = set(NUMBERS)\n```\n\n",
                 "related_info": null,
                 "details": null
-            },
-            "type": "actionable"
-        },
-        {
-            "comment": "python.pylint.refactor",
-            "params": {
-                "lineno": "19",
-                "code": "R6301 no-self-use",
-                "message": "Method could be a function",
-                "bad_code": "Instead of: \n```python\nclass Person:\n    def greeting(self):  # [no-self-use]\n        print(\"Greetings pythonista!\")\n```\n\n",
-                "good_code": "Try: \n```python\n# Function\ndef greeting():\n    print(\"Greetings pythonista!\")\n\n\n# Static Method\nclass Person:\n    @staticmethod\n    def greeting():\n        print(\"Greetings pythonista!\")\n\n# Use Self\nclass Person:\n    name: str = \"Amelia\"\n\n    def greeting(self):\n        print(f\"Greetings {self.name} the pythonista!\")\n```\n\n",
-                "related_info": null,
-                "details": "If a function is not using any class attribute it can be a\n`@staticmethod`, or a function outside the class.\n"
             },
             "type": "actionable"
         },

@@ -48,7 +48,7 @@ method-naming-style=snake_case
 inlinevar-naming-style=snake_case
 
 # Include a hint for the correct naming format with invalid-name.
-include-naming-hint=yes
+include-naming-hint=no
 
 # Bad variable names which should always be refused, separated by a comma.
 bad-names=x,

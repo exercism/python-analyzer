@@ -64,6 +64,7 @@ def generate_pylint_comments(in_path, pylint_spec='/opt/analyzer/lib/common/.pyl
                 continue
 
             if line[2] in {"C0114 missing-module-docstring",
+                           "C0115 missing-class-docstring",
                            "C0116 missing-function-docstring",
                            "C0304 missing-final-newline"}:
 
@@ -71,14 +72,18 @@ def generate_pylint_comments(in_path, pylint_spec='/opt/analyzer/lib/common/.pyl
             else:
                 status_type = status_mapping[line[0]]
 
-            pylint_comments.append(Comment(type=status_type,
-                                           params={'lineno': line[1],
-                                                   'code': line[2],
-                                                   'message': ', '.join(line[3:]),
-                                                   'bad_code': f'Instead of: \n```python\n{bad}```\n\n' if bad else None,
-                                                   'good_code': f'Try: \n```python\n{good}```\n\n' if good else None,
-                                                   'related_info': related,
-                                                   'details': details},
-                                           comment=f'python.pylint.{line[0]}'))
+            new_comment =  Comment(type=status_type,
+                                   params={'lineno': line[1],
+                                           'code': line[2],
+                                           'message': ', '.join(line[3:]),
+                                           'bad_code': f'Instead of: \n```python\n{bad}```\n\n' if bad else None,
+                                           'good_code': f'Try: \n```python\n{good}```\n\n' if good else None,
+                                           'related_info': related,
+                                           'details': details},
+                                   comment=f'python.pylint.{line[0]}')
+
+
+            if new_comment not in pylint_comments:
+                pylint_comments.append(new_comment)
 
     return pylint_comments
